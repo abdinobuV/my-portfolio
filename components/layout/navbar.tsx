@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Separator } from "@/components/ui/separator"
 import { ThemeToggle } from "@/components/layout/theme-toggle"
+import { ScrollProgress } from "@/components/layout/scroll-progress"
 import { profile } from "@/content/profile"
 import { motionTheme } from "@/motion.theme"
 
@@ -88,6 +89,7 @@ function Navbar() {
       style={{ viewTransitionName: "site-header" }}
       className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/75"
     >
+      <ScrollProgress />
       <motion.div
         layout={reduceMotion ? false : true}
         transition={motionTheme.transitions.ui}

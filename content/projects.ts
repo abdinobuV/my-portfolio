@@ -7,6 +7,8 @@ export type Project = {
   year: string
   status: "Live" | "Dalam proyek" | "Arsip"
   links: { label: string; href: string }[]
+  /** Base accent color (no alpha); use with color-mix for tints */
+  accent: string
 }
 
 export const projects: Project[] = [
@@ -24,6 +26,7 @@ export const projects: Project[] = [
       { label: "Live", href: "#" },
       { label: "Kode", href: "#" },
     ],
+    accent: "oklch(0.75 0.12 75)",
   },
   {
     slug: "journal-harian",
@@ -39,6 +42,7 @@ export const projects: Project[] = [
       { label: "Live", href: "#" },
       { label: "Kode", href: "#" },
     ],
+    accent: "oklch(0.7 0.14 200)",
   },
   {
     slug: "dashboard-keuangan",
@@ -51,6 +55,7 @@ export const projects: Project[] = [
     year: "2025",
     status: "Arsip",
     links: [{ label: "Kode", href: "#" }],
+    accent: "oklch(0.65 0.15 150)",
   },
   {
     slug: "form-builder",
@@ -63,6 +68,7 @@ export const projects: Project[] = [
     year: "2025",
     status: "Dalam proyek",
     links: [{ label: "Kode", href: "#" }],
+    accent: "oklch(0.7 0.14 300)",
   },
 ]
 

@@ -18,41 +18,76 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 
-function ProjectCard({ project }: { project: Project }) {
+function ProjectCard({
+  project,
+  index,
+  total,
+}: {
+  project: Project
+  index: number
+  total: number
+}) {
   return (
     <Dialog>
       <DialogTrigger asChild>
         <SpotlightCard beam className="h-full bg-card transition-colors hover:bg-muted/40">
-          <article className="flex h-full cursor-pointer flex-col justify-between p-5 md:p-6">
-            <div>
-              <div className="flex items-start justify-between gap-3">
-                <p className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
-                  {project.year} — {project.status}
-                </p>
-                <ArrowUpRightIcon
-                  className="size-4 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground"
-                  aria-hidden
-                />
-              </div>
-              <h3 className="font-heading mt-4 text-lg font-semibold tracking-wide md:text-xl">
-                {project.title}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {project.summary}
-              </p>
+          <article className="group flex h-full cursor-pointer flex-col justify-between">
+            <div
+              aria-hidden
+              className="relative aspect-[16/10] overflow-hidden border-b border-border"
+              style={{
+                background: `linear-gradient(135deg, color-mix(in oklab, ${project.accent} 14%, transparent) 0%, transparent 50%), linear-gradient(225deg, color-mix(in oklab, ${project.accent} 28%, transparent) 0%, transparent 60%), var(--card)`,
+              }}
+            >
+              <div
+                className="absolute inset-0 transition-transform duration-500 ease-out group-hover:scale-105"
+                style={{
+                  background: `radial-gradient(circle at 30% 70%, color-mix(in oklab, ${project.accent} 34%, transparent) 0%, transparent 45%)`,
+                }}
+              />
+              <span className="absolute top-3 left-3 font-mono text-[0.625rem] tracking-widest text-muted-foreground uppercase">
+                {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+              </span>
+              <span className="absolute right-3 bottom-3 font-heading text-4xl font-semibold tracking-tight text-foreground/10">
+                {project.year}
+              </span>
             </div>
-            <div className="mt-6 flex flex-wrap gap-2">
-              {project.tags.slice(0, 3).map((tag) => (
-                <Badge key={tag} variant="secondary" className="px-2 py-1">
-                  {tag}
-                </Badge>
-              ))}
+            <div className="flex flex-1 flex-col justify-between p-5 md:p-6">
+              <div>
+                <div className="flex items-start justify-between gap-3">
+                  <p className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
+                    {project.year} — {project.status}
+                  </p>
+                  <ArrowUpRightIcon
+                    className="size-4 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground"
+                    aria-hidden
+                  />
+                </div>
+                <h3 className="font-heading mt-4 text-lg font-semibold tracking-wide md:text-xl">
+                  {project.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  {project.summary}
+                </p>
+              </div>
+              <div className="mt-6 flex flex-wrap gap-2">
+                {project.tags.slice(0, 3).map((tag) => (
+                  <Badge key={tag} variant="secondary" className="px-2 py-1">
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
             </div>
           </article>
         </SpotlightCard>
       </DialogTrigger>
 
       <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-lg">
+        <div
+          aria-hidden
+          className="h-1.5 -mx-6 -mt-6 mb-2"
+          style={{ background: project.accent }}
+        />
         <DialogHeader>
           <p className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
             {project.year} — {project.status}
@@ -128,7 +163,12 @@ function Projects() {
 
         <div className="grid gap-4 sm:grid-cols-2">
           {visible.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
+            <ProjectCard
+              key={project.slug}
+              project={project}
+              index={projects.indexOf(project)}
+              total={projects.length}
+            />
           ))}
         </div>
 

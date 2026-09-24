@@ -47,7 +47,7 @@ function Hero() {
 
         <h1
           id="hero-heading"
-          className="font-heading max-w-4xl text-4xl leading-[1.05] font-semibold tracking-tight text-balance sm:text-5xl md:text-6xl lg:text-7xl"
+          className="font-heading max-w-none text-5xl leading-[0.95] font-semibold tracking-[-0.03em] text-balance sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl"
         >
           <StaggerText text={profile.name} delay={0.08} as="span" />
         </h1>

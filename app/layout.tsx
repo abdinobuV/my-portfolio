@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { LenisProvider } from "@/components/providers/lenis-provider"
 import { Navbar } from "@/components/layout/navbar"
 import { Footer } from "@/components/layout/footer"
+import { StickyCta } from "@/components/layout/sticky-cta"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { cn } from "cn"
 
@@ -72,6 +73,8 @@ export default function RootLayout({
               <Navbar />
               <main id="konten">{children}</main>
               <Footer />
+              <StickyCta />
+              <div className="grain" aria-hidden />
             </TooltipProvider>
           </LenisProvider>
         </ThemeProvider>
