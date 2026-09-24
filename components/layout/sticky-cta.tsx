@@ -10,6 +10,7 @@ import { motionTheme } from "@/motion.theme"
 function StickyCta() {
   const [scrolled, setScrolled] = React.useState(false)
   const [inContact, setInContact] = React.useState(false)
+  const [inFooter, setInFooter] = React.useState(false)
   const { scrollY } = useScroll()
 
   React.useEffect(() => {
@@ -20,19 +21,28 @@ function StickyCta() {
   }, [scrollY])
 
   React.useEffect(() => {
-    const el = document.getElementById("kontak")
-    if (!el) return
+    const kontak = document.getElementById("kontak")
+    const footer = document.querySelector("footer")
+
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        setInContact(entry.isIntersecting)
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.target.id === "kontak") {
+            setInContact(entry.isIntersecting)
+          } else {
+            setInFooter(entry.isIntersecting)
+          }
+        }
       },
       { threshold: 0.2 }
     )
-    observer.observe(el)
+
+    if (kontak) observer.observe(kontak)
+    if (footer) observer.observe(footer)
     return () => observer.disconnect()
   }, [])
 
-  const visible = scrolled && !inContact
+  const visible = scrolled && !inContact && !inFooter
 
   return (
     <motion.div
@@ -43,13 +53,13 @@ function StickyCta() {
       }}
       transition={motionTheme.transitions.ui}
       style={{ pointerEvents: visible ? "auto" : "none" }}
-      className="sticky-cta fixed inset-x-4 bottom-4 z-40 md:hidden"
+      className="sticky-cta fixed inset-x-4 bottom-[max(1rem,env(safe-area-inset-bottom))] z-40 md:hidden"
       aria-hidden={!visible}
     >
       <a
         href={`mailto:${profile.email}`}
         tabIndex={visible ? 0 : -1}
-        className="flex items-center justify-center gap-2 border border-border bg-background/95 px-4 py-3 text-xs font-semibold tracking-widest uppercase shadow-lg backdrop-blur supports-[backdrop-filter]:bg-background/80"
+        className="flex min-h-11 items-center justify-center gap-2 border border-border bg-background/95 px-4 py-3 text-xs font-semibold tracking-widest uppercase shadow-lg backdrop-blur supports-[backdrop-filter]:bg-background/80"
       >
         Terbuka untuk kerja
         <MailIcon className="size-4" aria-hidden />

@@ -50,6 +50,15 @@ const components = {
     />
   ),
   hr: () => <hr className="my-10 border-border" />,
+  table: (props: React.ComponentProps<"table">) => (
+    <div className="my-6 overflow-x-auto">
+      <table className="w-full border-collapse text-sm" {...props} />
+    </div>
+  ),
+  img: ({ alt, ...props }: React.ComponentProps<"img">) => (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img alt={alt ?? ""} className="my-6 h-auto max-w-full" {...props} />
+  ),
 }
 
 export async function MdxContent({ source }: { source: string }) {

@@ -134,7 +134,7 @@ function Navbar() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <ThemeToggle />
+          <ThemeToggle className="min-h-11 min-w-11" />
 
           <Button asChild size="sm" className="hidden md:inline-flex">
             <a href={profile.cvUrl} download>
@@ -147,32 +147,34 @@ function Navbar() {
               <Button
                 variant="outline"
                 size="icon-sm"
-                className="md:hidden"
+                className="min-h-11 min-w-11 md:hidden"
                 aria-label="Buka menu"
               >
                 <MenuIcon />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[min(100%,20rem)]">
+            <SheetContent side="right" className="w-[min(100%,20rem)] max-w-[20rem] p-0">
               <SheetTitle className="sr-only">Menu navigasi</SheetTitle>
-              <nav aria-label="Navigasi mobile" className="mt-8 flex flex-col gap-1">
-                {navItems.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setOpen(false)}
-                    className="border-b border-border py-3 text-sm font-semibold tracking-widest uppercase transition-colors hover:text-muted-foreground"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </nav>
-              <Separator className="my-6" />
-              <Button asChild size="sm" className="w-full">
-                <a href={profile.cvUrl} download>
-                  Unduh CV
-                </a>
-              </Button>
+              <div className="flex min-h-0 flex-1 flex-col overflow-y-auto p-4 pt-14">
+                <nav aria-label="Navigasi mobile" className="mt-2 flex flex-col gap-1">
+                  {navItems.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setOpen(false)}
+                      className="border-b border-border py-3 text-sm font-semibold tracking-widest uppercase transition-colors hover:text-muted-foreground"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </nav>
+                <Separator className="my-6" />
+                <Button asChild size="sm" className="w-full">
+                  <a href={profile.cvUrl} download>
+                    Unduh CV
+                  </a>
+                </Button>
+              </div>
             </SheetContent>
           </Sheet>
         </div>

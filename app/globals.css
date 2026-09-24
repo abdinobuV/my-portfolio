@@ -122,9 +122,12 @@
     }
   body {
     @apply bg-background text-foreground;
+    overflow-x: clip;
     }
   html {
     @apply font-sans;
+    scroll-padding-top: 5rem;
+    overflow-x: clip;
     }
 }
 
@@ -133,7 +136,7 @@
   pointer-events: none;
   position: fixed;
   inset: 0;
-  z-index: 70;
+  z-index: 45;
   opacity: 0.035;
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -272,6 +275,13 @@
   pointer-events: none;
 }
 
+/* journey: horizontal pin at lg+ (motion allowed), vertical list otherwise */
+@media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
+  .journey-vertical {
+    display: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .beam-border {
     animation: none;
@@ -293,11 +303,7 @@
     display: none !important;
   }
 
-  .journey-vertical-desktop {
-    display: block !important;
-  }
-
-  .journey-vertical {
+  .journey-hint {
     display: none !important;
   }
 

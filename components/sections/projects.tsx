@@ -151,8 +151,8 @@ function Projects() {
                 aria-pressed={active}
                 className={
                   active
-                    ? "border border-primary bg-primary px-3 py-1.5 text-xs font-semibold tracking-widest text-primary-foreground uppercase"
-                    : "border border-border px-3 py-1.5 text-xs font-semibold tracking-widest text-muted-foreground uppercase transition-colors hover:border-foreground/30 hover:text-foreground"
+                    ? "inline-flex min-h-11 items-center border border-primary bg-primary px-3 py-1.5 text-xs font-semibold tracking-widest text-primary-foreground uppercase"
+                    : "inline-flex min-h-11 items-center border border-border px-3 py-1.5 text-xs font-semibold tracking-widest text-muted-foreground uppercase transition-colors hover:border-foreground/30 hover:text-foreground"
                 }
               >
                 {tag}

@@ -29,7 +29,7 @@ function KindChip({ kind }: { kind: string }) {
 
 function JourneyCard({ item }: { item: (typeof timeline)[number] }) {
   return (
-    <article className="flex w-[min(85vw,22rem)] shrink-0 flex-col border border-border bg-card p-6 md:w-[24rem]">
+    <article className="flex w-[24rem] shrink-0 flex-col border border-border bg-card p-6">
       <div className="flex flex-wrap items-center gap-3">
         <p className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
           {item.period}
@@ -99,6 +99,7 @@ function ProgressDot({
 
 function HorizontalTrack() {
   const ref = React.useRef<HTMLDivElement | null>(null)
+  const frameRef = React.useRef<HTMLDivElement | null>(null)
   const trackRef = React.useRef<HTMLDivElement | null>(null)
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -109,54 +110,71 @@ function HorizontalTrack() {
 
   React.useEffect(() => {
     const outer = ref.current
+    const frame = frameRef.current
     const track = trackRef.current
-    if (!outer || !track) return
+    if (!outer || !frame || !track) return
 
     const update = () => {
-      const overflow = track.scrollWidth - outer.clientWidth
-      rangeEnd.set(Math.max(0, overflow + 48))
+      const cs = getComputedStyle(frame)
+      const contentW =
+        frame.clientWidth -
+        (parseFloat(cs.paddingLeft) || 0) -
+        (parseFloat(cs.paddingRight) || 0)
+      const overflow = Math.max(0, track.scrollWidth - contentW + 48)
+      rangeEnd.set(overflow)
+      // pin height = travel + viewport so scroll progress maps 1:1 to x
+      outer.style.height = `${Math.round(overflow + window.innerHeight)}px`
     }
 
     update()
     const ro = new ResizeObserver(update)
     ro.observe(track)
-    ro.observe(outer)
-    return () => ro.disconnect()
+    ro.observe(frame)
+    window.addEventListener("resize", update)
+    return () => {
+      ro.disconnect()
+      window.removeEventListener("resize", update)
+    }
   }, [rangeEnd])
 
   return (
-    <div ref={ref} className="journey-pin relative h-[280vh]">
-      <div className="sticky top-20 flex h-[calc(100vh-6rem)] flex-col justify-center overflow-hidden">
-        <motion.div
-          ref={trackRef}
-          className="flex gap-4 px-1 pb-6 md:gap-6"
-          style={{ x }}
+    <div ref={ref} className="journey-pin relative h-[220svh]">
+      <div className="sticky top-20 flex h-[calc(100svh-6rem)] flex-col justify-center">
+        <div
+          ref={frameRef}
+          className="mx-auto w-full max-w-5xl overflow-hidden px-6 md:px-10 lg:px-16"
         >
-          {timeline.map((item) => (
-            <JourneyCard key={item.period} item={item} />
-          ))}
-        </motion.div>
-
-        <div className="mt-2 flex items-center gap-4 px-1">
-          <div className="h-px flex-1 bg-border">
-            <motion.div
-              style={{ scaleX: scrollYProgress }}
-              className="h-px origin-left bg-foreground"
-            />
-          </div>
-          <div className="flex gap-1.5" aria-hidden>
-            {timeline.map((_, i) => (
-              <ProgressDot
-                key={i}
-                index={i}
-                total={timeline.length}
-                progress={scrollYProgress}
-              />
+          <motion.div
+            ref={trackRef}
+            className="flex gap-4 pb-6 md:gap-6"
+            style={{ x }}
+          >
+            {timeline.map((item) => (
+              <JourneyCard key={item.period} item={item} />
             ))}
+          </motion.div>
+
+          <div className="mt-2 flex items-center gap-4">
+            <div className="h-px flex-1 bg-border">
+              <motion.div
+                style={{ scaleX: scrollYProgress }}
+                className="h-px origin-left bg-foreground"
+              />
+            </div>
+            <div className="flex gap-1.5" aria-hidden>
+              {timeline.map((_, i) => (
+                <ProgressDot
+                  key={i}
+                  index={i}
+                  total={timeline.length}
+                  progress={scrollYProgress}
+                />
+              ))}
+            </div>
+            <span className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
+              01 — {String(timeline.length).padStart(2, "0")}
+            </span>
           </div>
-          <span className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
-            01 — {String(timeline.length).padStart(2, "0")}
-          </span>
         </div>
       </div>
     </div>
@@ -187,20 +205,16 @@ function JourneyHorizontal() {
             Ringkasan pengalaman kerja, pendidikan, dan kursus.
           </p>
         </Reveal>
-        <p className="hidden max-w-2xl text-sm leading-relaxed text-muted-foreground md:block md:text-base">
+        <p className="journey-hint hidden max-w-2xl text-sm leading-relaxed text-muted-foreground lg:block lg:text-base">
           Gulir untuk menelusuri pengalaman secara horizontal.
         </p>
       </div>
 
-      <div className="journey-horizontal hidden md:block">
+      <div className="journey-horizontal hidden lg:block">
         <HorizontalTrack />
       </div>
 
-      <div className="journey-vertical mx-auto w-full max-w-5xl px-6 pt-10 pb-20 md:hidden md:px-10 md:pb-28">
-        <VerticalJourney />
-      </div>
-
-      <div className="journey-vertical-desktop mx-auto hidden w-full max-w-5xl px-6 pb-20 md:px-10 md:pb-28 lg:px-16">
+      <div className="journey-vertical mx-auto w-full max-w-5xl px-6 pt-10 pb-20 md:px-10 md:pb-28 lg:px-16">
         <VerticalJourney />
       </div>
     </section>
