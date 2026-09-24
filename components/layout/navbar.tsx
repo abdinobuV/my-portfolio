@@ -7,6 +7,7 @@ import { MenuIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Separator } from "@/components/ui/separator"
+import { ThemeToggle } from "@/components/layout/theme-toggle"
 import { profile } from "@/content/profile"
 
 const navItems = [
@@ -46,6 +47,8 @@ function Navbar() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <ThemeToggle />
+
           <Button asChild size="sm" className="hidden md:inline-flex">
             <a href={profile.cvUrl} download>
               Unduh CV
