@@ -47,7 +47,6 @@ function Hero() {
           <MicroTilt strength={4} className="inline-block shrink-0">
             <PixelTransition
               photos={profile.photos}
-              hint="Klik foto untuk ganti"
               buttonClassName="size-32 sm:size-36 md:size-40"
             />
           </MicroTilt>
