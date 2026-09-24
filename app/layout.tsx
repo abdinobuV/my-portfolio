@@ -25,11 +25,11 @@ const fontMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Arief Nugroho — Frontend Developer",
-    template: "%s — Arief Nugroho",
+    default: "Abdi Raihan Wibowo — Frontend Developer",
+    template: "%s — Abdi Raihan Wibowo",
   },
   description:
-    "Portfolio dan journal belajar Arief Nugroho, frontend developer dari Indonesia. Proyek, keahlian, dan catatan pengembangan diri.",
+    "Portfolio dan journal belajar Abdi Raihan Wibowo, frontend developer dari Indonesia. Proyek, keahlian, dan catatan pengembangan diri.",
   keywords: [
     "portfolio",
     "frontend developer",

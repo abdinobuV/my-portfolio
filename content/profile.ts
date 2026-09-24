@@ -1,11 +1,11 @@
 export const profile = {
-  name: "Arief Nugroho",
+  name: "Abdi Raihan Wibowo",
   role: "Frontend Developer",
   tagline:
     "Membangun antarmuka yang cepat, aksesibel, dan terasa menyenangkan dipakai.",
   bio: "Saya seorang pengembang web yang sedang giat belajar membangun produk digital dari nol. Fokus saya di frontend: TypeScript, React, dan detail interaksi yang membuat user nyaman. Di luar kode, saya menulis journal belajar supaya progres tidak hilang begitu saja.",
   location: "Indonesia",
-  email: "arief@example.com",
+  email: "abdi@example.com",
   stats: [
     { label: "Proyek selesai", value: 12, suffix: "+" },
     { label: "Jam belajar", value: 860, suffix: "+" },
@@ -15,7 +15,7 @@ export const profile = {
   socials: [
     { label: "GitHub", href: "https://github.com" },
     { label: "LinkedIn", href: "https://linkedin.com" },
-    { label: "Email", href: "mailto:arief@example.com" },
+    { label: "Email", href: "mailto:abdi@example.com" },
   ],
   cvUrl: "/cv.pdf",
 } as const
