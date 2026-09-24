@@ -211,6 +211,53 @@
   opacity: 0.9;
 }
 
+/* brand icon contrast guard (TechIcon) */
+.dark .tech-brand[data-tone="dark"] path {
+  fill: #ffffff;
+}
+
+html:not(.dark) .tech-brand[data-tone="light"] path {
+  fill: #181717;
+}
+
+/* pixelated photo swap (PixelTransition) */
+@keyframes pixel-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.55);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pixel-vanish {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.55);
+  }
+}
+
+.pixel {
+  background-color: var(--primary);
+  animation-duration: 0.1s;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+}
+
+.pixel--in {
+  animation-name: pixel-pop;
+}
+
+.pixel--out {
+  animation-name: pixel-vanish;
+}
+
 /* view transitions — page content enter */
 ::view-transition-old(page-content),
 ::view-transition-new(page-content) {
@@ -285,6 +332,11 @@
 @media (prefers-reduced-motion: reduce) {
   .beam-border {
     animation: none;
+  }
+
+  .pixel {
+    animation: none !important;
+    opacity: 0;
   }
 
   .grain {

@@ -57,19 +57,4 @@ export const projects: Project[] = [
     links: [{ label: "Kode", href: "#" }],
     accent: "oklch(0.65 0.15 150)",
   },
-  {
-    slug: "form-builder",
-    title: "Form Builder Ringan",
-    summary:
-      "Penyusun form drag-and-drop sederhana dengan validasi Zod.",
-    description:
-      "Eksperimen membuat form dari definisi JSON: field, label, dan validasi. Output bisa diekspor sebagai kode React. Fokus belajarnya pada schema validation dan pemisahan UI editor vs preview.",
-    tags: ["TypeScript", "React Hook Form", "Zod"],
-    year: "2025",
-    status: "Dalam proyek",
-    links: [{ label: "Kode", href: "#" }],
-    accent: "oklch(0.7 0.14 300)",
-  },
 ]
-
-export const projectFilters = ["Semua", ...new Set(projects.flatMap((p) => p.tags))]

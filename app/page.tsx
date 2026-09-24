@@ -1,33 +1,14 @@
 import { ViewTransition } from "react"
 
 import { Hero } from "@/components/sections/hero"
-import { Marquee } from "@/components/animations/marquee"
+import { TechMarquee } from "@/components/animations/tech-marquee"
 import { About } from "@/components/sections/about"
 import { Skills } from "@/components/sections/skills"
 import { Projects } from "@/components/sections/projects"
 import { JourneyHorizontal } from "@/components/sections/journey-horizontal"
 import { Dashboard } from "@/components/sections/dashboard"
 import { Contact } from "@/components/sections/contact"
-import { projects } from "@/content/projects"
-import { skillCategories } from "@/content/skills"
-
-const marqueeItems = [
-  ...new Set([
-    "TypeScript",
-    "React",
-    "Next.js",
-    "Tailwind CSS",
-    "shadcn/ui",
-    "Framer Motion",
-    "Lenis",
-    "MDX",
-    "Recharts",
-    "Zod",
-    "Aksesibilitas",
-    ...projects.flatMap((p) => p.tags),
-    ...skillCategories.flatMap((c) => c.skills.map((s) => s.name)),
-  ]),
-]
+import { technologies } from "@/content/technologies"
 
 export default function Page() {
   return (
@@ -35,7 +16,10 @@ export default function Page() {
       <>
         <Hero />
         <div className="border-y border-border bg-card/50 py-4">
-          <Marquee items={marqueeItems} duration={45} />
+          <p className="mb-3 px-6 font-mono text-[0.625rem] tracking-widest text-muted-foreground uppercase md:px-10 lg:px-16">
+            Teknologi yang dipakai
+          </p>
+          <TechMarquee items={technologies} duration={50} />
         </div>
         <About />
         <Skills />

@@ -1,0 +1,85 @@
+import type { SimpleIcon } from "simple-icons"
+import {
+  siCss,
+  siDocker,
+  siEslint,
+  siFigma,
+  siFramer,
+  siGit,
+  siGithub,
+  siHtml5,
+  siJavascript,
+  siLucide,
+  siMdx,
+  siNextdotjs,
+  siNodedotjs,
+  siPostgresql,
+  siPrettier,
+  siRadixui,
+  siReact,
+  siReacthookform,
+  siShadcnui,
+  siTailwindcss,
+  siTypescript,
+  siVercel,
+  siVite,
+  siVitest,
+  siZod,
+} from "simple-icons"
+
+export type Technology = {
+  label: string
+  icon: SimpleIcon
+}
+
+/** Teknologi yang dipakai — data dummy, urutan menentukan isi tiap baris marquee. */
+export const technologies: Technology[] = [
+  { label: "TypeScript", icon: siTypescript },
+  { label: "React", icon: siReact },
+  { label: "Next.js", icon: siNextdotjs },
+  { label: "Tailwind CSS", icon: siTailwindcss },
+  { label: "shadcn/ui", icon: siShadcnui },
+  { label: "Radix UI", icon: siRadixui },
+  { label: "Framer Motion", icon: siFramer },
+  { label: "MDX", icon: siMdx },
+  { label: "Zod", icon: siZod },
+  { label: "React Hook Form", icon: siReacthookform },
+  { label: "JavaScript", icon: siJavascript },
+  { label: "HTML5", icon: siHtml5 },
+  { label: "CSS", icon: siCss },
+  { label: "Git", icon: siGit },
+  { label: "GitHub", icon: siGithub },
+  { label: "Vercel", icon: siVercel },
+  { label: "Vite", icon: siVite },
+  { label: "Node.js", icon: siNodedotjs },
+  { label: "PostgreSQL", icon: siPostgresql },
+  { label: "Docker", icon: siDocker },
+  { label: "ESLint", icon: siEslint },
+  { label: "Prettier", icon: siPrettier },
+  { label: "Vitest", icon: siVitest },
+  { label: "Figma", icon: siFigma },
+  { label: "Lucide", icon: siLucide },
+]
+
+/** Ikon brand untuk label tag pada kartu proyek (fallback: tanpa ikon). */
+export const techIconByLabel: Record<string, SimpleIcon> = {
+  TypeScript: siTypescript,
+  JavaScript: siJavascript,
+  React: siReact,
+  "Next.js": siNextdotjs,
+  "Tailwind CSS": siTailwindcss,
+  Tailwind: siTailwindcss,
+  "shadcn/ui": siShadcnui,
+  "Radix UI": siRadixui,
+  "Framer Motion": siFramer,
+  MDX: siMdx,
+  Zod: siZod,
+  "React Hook Form": siReacthookform,
+  HTML5: siHtml5,
+  CSS: siCss,
+  Git: siGit,
+  GitHub: siGithub,
+  Vercel: siVercel,
+  Vite: siVite,
+  "Node.js": siNodedotjs,
+}

@@ -1,12 +1,11 @@
-"use client"
-
-import * as React from "react"
 import { ArrowUpRightIcon } from "lucide-react"
 
 import { Section, SectionHeading } from "@/components/layout/section"
 import { Reveal } from "@/components/animations/reveal"
 import { SpotlightCard } from "@/components/animations/spotlight-card"
-import { projectFilters, projects, type Project } from "@/content/projects"
+import { projects, type Project } from "@/content/projects"
+import { techIconByLabel } from "@/content/technologies"
+import { TechIcon } from "@/components/tech-icon"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -17,6 +16,23 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+
+function TagBadge({
+  tag,
+  variant = "secondary",
+}: {
+  tag: string
+  variant?: "secondary" | "outline"
+}) {
+  const icon = techIconByLabel[tag]
+
+  return (
+    <Badge variant={variant} className="gap-1.5 px-2 py-1">
+      {icon ? <TechIcon icon={icon} size={12} /> : null}
+      {tag}
+    </Badge>
+  )
+}
 
 function ProjectCard({
   project,
@@ -30,11 +46,14 @@ function ProjectCard({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <SpotlightCard beam className="h-full bg-card transition-colors hover:bg-muted/40">
+        <SpotlightCard
+          beam
+          className="h-full bg-card transition-colors hover:bg-muted/40"
+        >
           <article className="group flex h-full cursor-pointer flex-col justify-between">
             <div
               aria-hidden
-              className="relative aspect-[16/10] overflow-hidden border-b border-border"
+              className="relative aspect-[4/3] overflow-hidden border-b border-border"
               style={{
                 background: `linear-gradient(135deg, color-mix(in oklab, ${project.accent} 14%, transparent) 0%, transparent 50%), linear-gradient(225deg, color-mix(in oklab, ${project.accent} 28%, transparent) 0%, transparent 60%), var(--card)`,
               }}
@@ -46,9 +65,10 @@ function ProjectCard({
                 }}
               />
               <span className="absolute top-3 left-3 font-mono text-[0.625rem] tracking-widest text-muted-foreground uppercase">
-                {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+                {String(index + 1).padStart(2, "0")} /{" "}
+                {String(total).padStart(2, "0")}
               </span>
-              <span className="absolute right-3 bottom-3 font-heading text-4xl font-semibold tracking-tight text-foreground/10">
+              <span className="absolute right-3 bottom-3 font-heading text-4xl font-semibold tracking-tight text-foreground/10 md:text-5xl">
                 {project.year}
               </span>
             </div>
@@ -59,11 +79,11 @@ function ProjectCard({
                     {project.year} — {project.status}
                   </p>
                   <ArrowUpRightIcon
-                    className="size-4 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground"
+                    className="size-4 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground"
                     aria-hidden
                   />
                 </div>
-                <h3 className="font-heading mt-4 text-lg font-semibold tracking-wide md:text-xl">
+                <h3 className="mt-4 font-heading text-lg font-semibold tracking-wide md:text-2xl">
                   {project.title}
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
@@ -71,10 +91,8 @@ function ProjectCard({
                 </p>
               </div>
               <div className="mt-6 flex flex-wrap gap-2">
-                {project.tags.slice(0, 3).map((tag) => (
-                  <Badge key={tag} variant="secondary" className="px-2 py-1">
-                    {tag}
-                  </Badge>
+                {project.tags.slice(0, 4).map((tag) => (
+                  <TagBadge key={tag} tag={tag} />
                 ))}
               </div>
             </div>
@@ -85,7 +103,7 @@ function ProjectCard({
       <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-lg">
         <div
           aria-hidden
-          className="h-1.5 -mx-6 -mt-6 mb-2"
+          className="-mx-6 -mt-6 mb-2 h-1.5"
           style={{ background: project.accent }}
         />
         <DialogHeader>
@@ -102,9 +120,7 @@ function ProjectCard({
 
         <div className="mt-2 flex flex-wrap gap-2">
           {project.tags.map((tag) => (
-            <Badge key={tag} variant="outline" className="px-2 py-1">
-              {tag}
-            </Badge>
+            <TagBadge key={tag} tag={tag} variant="outline" />
           ))}
         </div>
 
@@ -124,45 +140,17 @@ function ProjectCard({
 }
 
 function Projects() {
-  const [filter, setFilter] = React.useState("Semua")
-
-  const visible =
-    filter === "Semua"
-      ? projects
-      : projects.filter((p) => p.tags.includes(filter))
-
   return (
     <Section id="proyek">
       <SectionHeading
         index="03"
         title="Proyek"
-        description="Beberapa karya terpilih. Klik kartu untuk melihat detail."
+        description="Tiga karya utama. Klik kartu untuk melihat detail."
       />
 
       <Reveal>
-        <div className="mb-8 flex flex-wrap gap-2" role="group" aria-label="Filter proyek">
-          {projectFilters.map((tag) => {
-            const active = filter === tag
-            return (
-              <button
-                key={tag}
-                type="button"
-                onClick={() => setFilter(tag)}
-                aria-pressed={active}
-                className={
-                  active
-                    ? "inline-flex min-h-11 items-center border border-primary bg-primary px-3 py-1.5 text-xs font-semibold tracking-widest text-primary-foreground uppercase"
-                    : "inline-flex min-h-11 items-center border border-border px-3 py-1.5 text-xs font-semibold tracking-widest text-muted-foreground uppercase transition-colors hover:border-foreground/30 hover:text-foreground"
-                }
-              >
-                {tag}
-              </button>
-            )
-          })}
-        </div>
-
-        <div className="grid gap-4 sm:grid-cols-2">
-          {visible.map((project) => (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
+          {projects.map((project) => (
             <ProjectCard
               key={project.slug}
               project={project}
@@ -171,12 +159,6 @@ function Projects() {
             />
           ))}
         </div>
-
-        {visible.length === 0 ? (
-          <p className="border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
-            Tidak ada proyek dengan filter ini.
-          </p>
-        ) : null}
       </Reveal>
     </Section>
   )

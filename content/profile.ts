@@ -5,6 +5,14 @@ export const profile = {
     "Membangun antarmuka yang cepat, aksesibel, dan terasa menyenangkan dipakai.",
   bio: "Saya seorang pengembang web yang sedang giat belajar membangun produk digital dari nol. Fokus saya di frontend: TypeScript, React, dan detail interaksi yang membuat user nyaman. Di luar kode, saya menulis journal belajar supaya progres tidak hilang begitu saja.",
   location: "Indonesia",
+  /** Foto profil — klik untuk berganti (dummy, ganti file untuk foto asli) */
+  photos: [
+    { src: "/avatars/avatar-1.svg", alt: "Foto profil Abdi Raihan Wibowo" },
+    {
+      src: "/avatars/avatar-2.svg",
+      alt: "Foto profil alternatif (placeholder)",
+    },
+  ],
   email: "abdi@example.com",
   stats: [
     { label: "Proyek selesai", value: 12, suffix: "+" },
