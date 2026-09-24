@@ -1,17 +1,25 @@
 "use client"
 
 import { motion, useReducedMotion } from "framer-motion"
-import { ArrowDownRightIcon, FileTextIcon } from "lucide-react"
+import { ArrowRightIcon, MailIcon } from "lucide-react"
+import { siGithub } from "simple-icons"
 
 import { Button } from "@/components/ui/button"
 import { profile } from "@/content/profile"
-import { Badge } from "@/components/ui/badge"
 import { Magnetic } from "@/components/animations/magnetic"
 import { MicroTilt } from "@/components/animations/micro-tilt"
 import { StaggerText } from "@/components/animations/stagger-text"
-import { Parallax } from "@/components/animations/parallax"
 import { PixelTransition } from "@/components/animations/pixel-transition"
+import { TechIcon } from "@/components/tech-icon"
+import { linkedinIcon } from "@/components/icons/linkedin"
+import { techIconByLabel } from "@/content/technologies"
 import { motionTheme } from "@/motion.theme"
+
+function SocialIcon({ kind }: { kind: (typeof profile.socials)[number]["icon"] }) {
+  if (kind === "github") return <TechIcon icon={siGithub} size={18} />
+  if (kind === "linkedin") return <TechIcon icon={linkedinIcon} size={18} />
+  return <MailIcon aria-hidden size={18} />
+}
 
 function Hero() {
   const reduceMotion = useReducedMotion()
@@ -35,84 +43,82 @@ function Hero() {
       className="px-6 pt-16 pb-20 md:px-10 md:pt-24 md:pb-28 lg:px-16"
     >
       <div className="mx-auto w-full max-w-5xl">
-        <motion.div
-          {...rise(0)}
-          className="mb-6 flex items-center gap-4 sm:gap-6"
-        >
-          <MicroTilt strength={4} className="inline-block">
+        <motion.div {...rise(0)} className="flex items-center gap-4 sm:gap-6">
+          <MicroTilt strength={4} className="inline-block shrink-0">
             <PixelTransition
               photos={profile.photos}
               hint="Klik foto untuk ganti"
-              buttonClassName="size-24 sm:size-28 md:size-32"
+              buttonClassName="size-32 sm:size-36 md:size-40"
             />
           </MicroTilt>
-          <div className="flex flex-wrap items-center gap-3">
-            <Badge variant="outline" className="border-border px-2 py-1">
-              Portfolio / {profile.year}
-            </Badge>
-            <span className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
-              {profile.location}
-            </span>
+          <div className="flex min-w-0 flex-col justify-center gap-2.5">
+            <h1
+              id="hero-heading"
+              className="font-heading text-2xl font-semibold tracking-tight text-balance sm:text-3xl"
+            >
+              <StaggerText text={profile.name} delay={0.08} as="span" />
+            </h1>
+            <div className="flex items-center gap-4">
+              {profile.socials.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  aria-label={social.label}
+                  target={social.href.startsWith("http") ? "_blank" : undefined}
+                  rel={
+                    social.href.startsWith("http") ? "noreferrer" : undefined
+                  }
+                  className="inline-flex text-muted-foreground opacity-70 transition-all hover:-translate-y-0.5 hover:text-foreground hover:opacity-100"
+                >
+                  <SocialIcon kind={social.icon} />
+                </a>
+              ))}
+            </div>
           </div>
         </motion.div>
 
-        <h1
-          id="hero-heading"
-          className="max-w-none font-heading text-[clamp(2.25rem,10vw,3rem)] leading-[0.95] font-semibold tracking-[-0.03em] text-balance sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl"
+        <motion.h2
+          {...rise(0.15)}
+          className="mt-6 max-w-3xl text-[1.7rem] leading-tight font-normal tracking-tight text-balance sm:text-[2.05rem] md:text-[2.15rem]"
         >
-          <StaggerText text={profile.name} delay={0.08} as="span" />
-        </h1>
+          {profile.role}{" "}
+          <span className="text-[0.95em] font-light text-muted-foreground">
+            — {profile.focus}
+          </span>
+        </motion.h2>
 
         <motion.p
-          {...rise(0.2)}
-          className="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg"
+          {...rise(0.25)}
+          className="mt-5 max-w-2xl text-base leading-7 font-light text-muted-foreground sm:text-lg sm:leading-8"
         >
-          <span className="font-semibold text-foreground">{profile.role}.</span>{" "}
-          {profile.tagline}
+          {profile.heroBio.map((segment, index) =>
+            segment.type === "chip" ? (
+              <span
+                key={index}
+                className="ml-1 inline-flex items-center gap-1.5 rounded-md border border-dashed border-border bg-background px-2 py-1 text-xs text-foreground/80 align-middle sm:px-2.5 sm:text-sm"
+              >
+                <TechIcon icon={techIconByLabel[segment.value]} size={14} />
+                {segment.value}
+              </span>
+            ) : (
+              <span key={index}>
+                {index > 0 ? " " : null}
+                {segment.value}
+              </span>
+            )
+          )}
         </motion.p>
 
-        <motion.div {...rise(0.3)} className="mt-8 flex flex-wrap gap-3">
+        <motion.div {...rise(0.35)} className="mt-8">
           <Magnetic strength={8}>
             <Button asChild size="lg">
-              <a href="#proyek">
-                Lihat proyek
-                <ArrowDownRightIcon />
-              </a>
-            </Button>
-          </Magnetic>
-          <Magnetic strength={5}>
-            <Button asChild variant="outline" size="lg">
               <a href={profile.cvUrl} download>
                 Unduh CV
-                <FileTextIcon />
+                <ArrowRightIcon />
               </a>
             </Button>
           </Magnetic>
         </motion.div>
-
-        <Parallax offset={24} className="mt-16 md:mt-20">
-          <MicroTilt strength={8}>
-            <motion.div
-              {...rise(0.42)}
-              className="grid grid-cols-2 gap-px border border-border bg-border md:grid-cols-4"
-            >
-              {profile.stats.map((stat) => (
-                <div
-                  key={stat.label}
-                  className="bg-background px-4 py-5 md:px-5"
-                >
-                  <p className="font-heading text-2xl font-semibold md:text-3xl">
-                    {stat.value}
-                    {stat.suffix}
-                  </p>
-                  <p className="mt-1 text-xs tracking-widest text-muted-foreground uppercase">
-                    {stat.label}
-                  </p>
-                </div>
-              ))}
-            </motion.div>
-          </MicroTilt>
-        </Parallax>
       </div>
     </section>
   )
