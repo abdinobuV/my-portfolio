@@ -18,4 +18,5 @@ export const profile = {
     { label: "Email", href: "mailto:abdi@example.com" },
   ],
   cvUrl: "/cv.pdf",
+  year: new Date().getFullYear(),
 } as const

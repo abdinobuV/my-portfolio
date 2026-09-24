@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
+import { ViewTransition } from "react"
 
 import { MdxContent } from "@/components/blog/mdx-content"
 import { getAllPosts, getPost } from "@/lib/posts"
@@ -41,6 +42,7 @@ export default async function BlogPostPage({ params }: Props) {
   if (!post) notFound()
 
   return (
+    <ViewTransition name="page-content">
     <article className="px-6 py-16 md:px-10 md:py-20 lg:px-16">
       <div className="mx-auto w-full max-w-3xl">
         <Link
@@ -78,5 +80,6 @@ export default async function BlogPostPage({ params }: Props) {
         </div>
       </div>
     </article>
+    </ViewTransition>
   )
 }

@@ -3,30 +3,66 @@
 import * as React from "react"
 import { motion, useReducedMotion } from "framer-motion"
 import { cn } from "cn"
+import { motionTheme } from "@/motion.theme"
 
 type RevealProps = {
   children: React.ReactNode
   className?: string
   delay?: number
+  /** true → animasikan tiap anak dengan stagger (untuk list/grid non-semantik). */
+  stagger?: boolean
+  /** Override elemen wrapping (mis. "li" untuk list semantik). Tidak kompatibel dengan stagger. */
+  as?: "div" | "li"
 }
 
-function Reveal({ children, className, delay = 0 }: RevealProps) {
-  const reduceMotion = useReducedMotion()
+const childVariants = {
+  hidden: { opacity: 0, y: motionTheme.travel.section },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: motionTheme.transitions.ui,
+  },
+} as const
 
-  if (reduceMotion) {
-    return <div className={className}>{children}</div>
+function Reveal({ children, className, delay = 0, stagger = false, as = "div" }: RevealProps) {
+  const reduceMotion = useReducedMotion()
+  const Tag = as === "li" ? motion.li : motion.div
+  const useStagger = stagger && as === "div" && !reduceMotion
+
+  if (useStagger) {
+    return (
+      <motion.div
+        className={cn(className)}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: "-80px" }}
+        variants={{
+          hidden: {},
+          show: {
+            transition: {
+              staggerChildren: motionTheme.stagger.base,
+              delayChildren: delay,
+            },
+          },
+        }}
+      >
+        {React.Children.map(children, (child) => (
+          <motion.div variants={childVariants}>{child}</motion.div>
+        ))}
+      </motion.div>
+    )
   }
 
   return (
-    <motion.div
+    <Tag
       className={cn(className)}
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={reduceMotion ? false : { opacity: 0, y: motionTheme.travel.section }}
+      whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ ...motionTheme.transitions.gentle, delay }}
     >
       {children}
-    </motion.div>
+    </Tag>
   )
 }
 

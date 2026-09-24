@@ -19,7 +19,7 @@ function ThemeToggle({ className }: { className?: string }) {
     () => false
   )
 
-  const isDark = resolvedTheme === "dark"
+  const isDark = mounted && resolvedTheme === "dark"
 
   function toggle() {
     setTheme(isDark ? "light" : "dark")
@@ -31,7 +31,13 @@ function ThemeToggle({ className }: { className?: string }) {
       size="icon-sm"
       className={className}
       onClick={toggle}
-      aria-label={isDark ? "Ganti ke tema terang" : "Ganti ke tema gelap"}
+      aria-label={
+        mounted
+          ? isDark
+            ? "Ganti ke tema terang"
+            : "Ganti ke tema gelap"
+          : "Ganti tema"
+      }
       title="Ganti tema (d)"
     >
       {mounted ? (

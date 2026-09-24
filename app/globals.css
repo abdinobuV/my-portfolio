@@ -127,3 +127,109 @@
     @apply font-sans;
     }
 }
+
+/* beam sweep for spotlight card border */
+@keyframes beam-sweep {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.beam-border {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in oklab, var(--foreground) 70%, transparent) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  mask-image: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  -webkit-mask-image: linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  padding: 1px;
+  animation: beam-sweep 1.8s ease-in-out infinite;
+  opacity: 0.9;
+}
+
+/* view transitions — page content enter */
+::view-transition-old(page-content),
+::view-transition-new(page-content) {
+  animation-duration: 0.45s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+::view-transition-old(page-content) {
+  animation-name: page-out;
+}
+
+::view-transition-new(page-content) {
+  animation-name: page-in;
+}
+
+@keyframes page-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* anchor header/footer during directional transitions */
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(site-header) {
+  display: none;
+}
+::view-transition-new(site-header) {
+  animation: none;
+}
+
+::view-transition-group(site-footer) {
+  animation: none;
+  z-index: 50;
+}
+::view-transition-old(site-footer) {
+  display: none;
+}
+::view-transition-new(site-footer) {
+  animation: none;
+}
+
+::view-transition {
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beam-border {
+    animation: none;
+  }
+
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}

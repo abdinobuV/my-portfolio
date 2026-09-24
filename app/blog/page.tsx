@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import Link from "next/link"
+import { ViewTransition } from "react"
 
 import { SectionHeading } from "@/components/layout/section"
 import { Reveal } from "@/components/animations/reveal"
@@ -25,6 +26,7 @@ export default async function BlogIndexPage() {
   const posts = await getAllPosts()
 
   return (
+    <ViewTransition name="page-content">
     <div className="px-6 py-16 md:px-10 md:py-20 lg:px-16">
       <div className="mx-auto w-full max-w-5xl">
         <Link
@@ -43,36 +45,34 @@ export default async function BlogIndexPage() {
 
         <ul className="space-y-0 border-t border-border">
           {posts.map((post, i) => (
-            <Reveal key={post.slug} delay={i * 0.05}>
-              <li>
-                <Link
-                  href={`/blog/${post.slug}`}
-                  className="group block border-b border-border py-8 transition-colors hover:bg-muted/30"
-                >
-                  <div className="flex flex-wrap items-center gap-3">
-                    <time
-                      dateTime={post.date}
-                      className="font-mono text-xs tracking-widest text-muted-foreground uppercase"
-                    >
-                      {formatDate(post.date)}
-                    </time>
-                    {post.tags.map((tag) => (
-                      <Badge key={tag} variant="secondary" className="px-2 py-0.5">
-                        {tag}
-                      </Badge>
-                    ))}
-                  </div>
-                  <h2 className="font-heading mt-3 text-xl font-semibold tracking-wide transition-colors group-hover:text-muted-foreground md:text-2xl">
-                    {post.title}
-                  </h2>
-                  <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-                    {post.excerpt}
-                  </p>
-                  <span className="mt-4 inline-block text-xs font-semibold tracking-widest uppercase underline-offset-4 group-hover:underline">
-                    Baca →
-                  </span>
-                </Link>
-              </li>
+            <Reveal key={post.slug} delay={i * 0.05} as="li">
+              <Link
+                href={`/blog/${post.slug}`}
+                className="group block border-b border-border py-8 transition-colors hover:bg-muted/30"
+              >
+                <div className="flex flex-wrap items-center gap-3">
+                  <time
+                    dateTime={post.date}
+                    className="font-mono text-xs tracking-widest text-muted-foreground uppercase"
+                  >
+                    {formatDate(post.date)}
+                  </time>
+                  {post.tags.map((tag) => (
+                    <Badge key={tag} variant="secondary" className="px-2 py-0.5">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+                <h2 className="font-heading mt-3 text-xl font-semibold tracking-wide transition-colors group-hover:text-muted-foreground md:text-2xl">
+                  {post.title}
+                </h2>
+                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                  {post.excerpt}
+                </p>
+                <span className="mt-4 inline-block text-xs font-semibold tracking-widest uppercase underline-offset-4 group-hover:underline">
+                  Baca →
+                </span>
+              </Link>
             </Reveal>
           ))}
         </ul>
@@ -84,5 +84,6 @@ export default async function BlogIndexPage() {
         ) : null}
       </div>
     </div>
+    </ViewTransition>
   )
 }

@@ -5,6 +5,7 @@ import { ArrowUpRightIcon } from "lucide-react"
 
 import { Section, SectionHeading } from "@/components/layout/section"
 import { Reveal } from "@/components/animations/reveal"
+import { SpotlightCard } from "@/components/animations/spotlight-card"
 import { projectFilters, projects, type Project } from "@/content/projects"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -21,32 +22,34 @@ function ProjectCard({ project }: { project: Project }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <article className="group flex h-full cursor-pointer flex-col justify-between border border-border bg-card p-5 transition-colors hover:bg-muted/40 md:p-6">
-          <div>
-            <div className="flex items-start justify-between gap-3">
-              <p className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
-                {project.year} — {project.status}
+        <SpotlightCard beam className="h-full bg-card transition-colors hover:bg-muted/40">
+          <article className="flex h-full cursor-pointer flex-col justify-between p-5 md:p-6">
+            <div>
+              <div className="flex items-start justify-between gap-3">
+                <p className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
+                  {project.year} — {project.status}
+                </p>
+                <ArrowUpRightIcon
+                  className="size-4 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground"
+                  aria-hidden
+                />
+              </div>
+              <h3 className="font-heading mt-4 text-lg font-semibold tracking-wide md:text-xl">
+                {project.title}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                {project.summary}
               </p>
-              <ArrowUpRightIcon
-                className="size-4 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground"
-                aria-hidden
-              />
             </div>
-            <h3 className="font-heading mt-4 text-lg font-semibold tracking-wide md:text-xl">
-              {project.title}
-            </h3>
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              {project.summary}
-            </p>
-          </div>
-          <div className="mt-6 flex flex-wrap gap-2">
-            {project.tags.slice(0, 3).map((tag) => (
-              <Badge key={tag} variant="secondary" className="px-2 py-1">
-                {tag}
-              </Badge>
-            ))}
-          </div>
-        </article>
+            <div className="mt-6 flex flex-wrap gap-2">
+              {project.tags.slice(0, 3).map((tag) => (
+                <Badge key={tag} variant="secondary" className="px-2 py-1">
+                  {tag}
+                </Badge>
+              ))}
+            </div>
+          </article>
+        </SpotlightCard>
       </DialogTrigger>
 
       <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-lg">

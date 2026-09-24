@@ -20,8 +20,7 @@ function Timeline() {
 
       <ol className="relative space-y-0 border-l border-border">
         {timeline.map((item, i) => (
-          <Reveal key={item.period} delay={i * 0.05}>
-            <li className="relative pb-10 pl-6 last:pb-0 md:pl-8">
+          <Reveal key={item.period} delay={i * 0.05} as="li" className="relative pb-10 pl-6 last:pb-0 md:pl-8">
               <span
                 aria-hidden
                 className="absolute top-1.5 -left-[5px] size-2.5 bg-foreground"
@@ -48,7 +47,6 @@ function Timeline() {
               <p className="mt-2 max-w-2xl text-sm leading-relaxed">
                 {item.description}
               </p>
-            </li>
           </Reveal>
         ))}
       </ol>

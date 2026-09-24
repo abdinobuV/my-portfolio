@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
+import { Confetti } from "@/components/animations/confetti"
 import { submitContact, type ContactState } from "@/app/actions/contact"
 
 const schema = z.object({
@@ -45,8 +46,9 @@ function ContactForm() {
     return (
       <div
         role="status"
-        className="flex h-full min-h-64 flex-col items-start justify-center border border-border p-8"
+        className="relative flex h-full min-h-64 flex-col items-start justify-center overflow-visible border border-border p-8"
       >
+        <Confetti className="top-6 left-6" />
         <CheckCircle2Icon className="size-8" aria-hidden />
         <p className="font-heading mt-4 text-lg font-semibold tracking-wide">
           Pesan terkirim

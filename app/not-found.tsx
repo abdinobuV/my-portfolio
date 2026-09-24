@@ -1,8 +1,10 @@
 import Link from "next/link"
+import { ViewTransition } from "react"
 import { Button } from "@/components/ui/button"
 
 export default function NotFound() {
   return (
+    <ViewTransition name="page-content">
     <div className="flex min-h-[60vh] flex-col items-center justify-center px-6 text-center">
       <p className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
         404
@@ -17,5 +19,6 @@ export default function NotFound() {
         <Link href="/">Kembali ke beranda</Link>
       </Button>
     </div>
+    </ViewTransition>
   )
 }

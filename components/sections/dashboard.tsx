@@ -47,7 +47,7 @@ function Dashboard() {
       />
 
       <div className="grid gap-4 md:grid-cols-3">
-        <Reveal>
+        <Reveal className="h-full">
           <Card className="h-full">
             <CardHeader>
               <CardTitle>Streak aktif</CardTitle>
@@ -81,7 +81,7 @@ function Dashboard() {
           </Card>
         </Reveal>
 
-        <Reveal delay={0.08} className="md:col-span-2">
+        <Reveal delay={0.08} className="h-full md:col-span-2">
           <Card className="h-full">
             <CardHeader>
               <CardTitle>Jam belajar per bulan</CardTitle>
@@ -113,7 +113,7 @@ function Dashboard() {
           </Card>
         </Reveal>
 
-        <Reveal delay={0.05} className="md:col-span-2">
+        <Reveal delay={0.05} className="h-full md:col-span-2">
           <Card className="h-full">
             <CardHeader>
               <CardTitle>Distribusi skill</CardTitle>
@@ -143,7 +143,7 @@ function Dashboard() {
           </Card>
         </Reveal>
 
-        <Reveal delay={0.1}>
+        <Reveal delay={0.1} className="h-full">
           <Card className="h-full">
             <CardHeader>
               <CardTitle>Total jam</CardTitle>

@@ -19,8 +19,8 @@ function About() {
         description="Sedikit konteks tentang siapa saya dan bagaimana saya bekerja."
       />
 
-      <div className="grid gap-10 md:grid-cols-[1.4fr_1fr] md:gap-14">
-        <Reveal className="space-y-5">
+      <Reveal stagger className="grid gap-10 md:grid-cols-[1.4fr_1fr] md:gap-14">
+        <div className="space-y-5">
           <p className="text-base leading-relaxed md:text-lg">{profile.bio}</p>
           <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
             Saya percaya interface yang baik itu tenang: hierarki jelas, gerak
@@ -28,9 +28,9 @@ function About() {
             mencoba menyeimbangkan kecepatan pengembangan dengan kualitas jangka
             panjang — supaya kode tetap enak dibaca enam bulan kemudian.
           </p>
-        </Reveal>
+        </div>
 
-        <Reveal delay={0.1} className="space-y-6">
+        <div className="space-y-6">
           <div className="border border-border p-5">
             <p className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
               Sekarang
@@ -53,8 +53,8 @@ function About() {
               ))}
             </div>
           </div>
-        </Reveal>
-      </div>
+        </div>
+      </Reveal>
     </Section>
   )
 }

@@ -6,17 +6,24 @@ import { ArrowDownRightIcon, FileTextIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { profile } from "@/content/profile"
 import { Badge } from "@/components/ui/badge"
+import { Magnetic } from "@/components/animations/magnetic"
+import { StaggerText } from "@/components/animations/stagger-text"
+import { Parallax } from "@/components/animations/parallax"
+import { motionTheme } from "@/motion.theme"
 
 function Hero() {
   const reduceMotion = useReducedMotion()
 
   const rise = (delay: number) =>
     reduceMotion
-      ? {}
+      ? { initial: false as const }
       : {
           initial: { opacity: 0, y: 20 },
           animate: { opacity: 1, y: 0 },
-          transition: { duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] as const },
+          transition: {
+            ...motionTheme.transitions.gentle,
+            delay,
+          },
         }
 
   return (
@@ -28,60 +35,65 @@ function Hero() {
       <div className="mx-auto w-full max-w-5xl">
         <motion.div {...rise(0)} className="mb-6 flex flex-wrap items-center gap-3">
           <Badge variant="outline" className="border-border px-2 py-1">
-            Portfolio / {new Date().getFullYear()}
+            Portfolio / {profile.year}
           </Badge>
           <span className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
             {profile.location}
           </span>
         </motion.div>
 
-        <motion.h1
+        <h1
           id="hero-heading"
-          {...rise(0.08)}
           className="font-heading max-w-4xl text-4xl leading-[1.05] font-semibold tracking-tight text-balance sm:text-5xl md:text-6xl lg:text-7xl"
         >
-          {profile.name}
-        </motion.h1>
+          <StaggerText text={profile.name} delay={0.08} as="span" />
+        </h1>
 
         <motion.p
-          {...rise(0.16)}
+          {...rise(0.2)}
           className="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg"
         >
           <span className="font-semibold text-foreground">{profile.role}.</span>{" "}
           {profile.tagline}
         </motion.p>
 
-        <motion.div {...rise(0.24)} className="mt-8 flex flex-wrap gap-3">
-          <Button asChild size="lg">
-            <a href="#proyek">
-              Lihat proyek
-              <ArrowDownRightIcon />
-            </a>
-          </Button>
-          <Button asChild variant="outline" size="lg">
-            <a href={profile.cvUrl} download>
-              Unduh CV
-              <FileTextIcon />
-            </a>
-          </Button>
+        <motion.div {...rise(0.3)} className="mt-8 flex flex-wrap gap-3">
+          <Magnetic strength={8}>
+            <Button asChild size="lg">
+              <a href="#proyek">
+                Lihat proyek
+                <ArrowDownRightIcon />
+              </a>
+            </Button>
+          </Magnetic>
+          <Magnetic strength={5}>
+            <Button asChild variant="outline" size="lg">
+              <a href={profile.cvUrl} download>
+                Unduh CV
+                <FileTextIcon />
+              </a>
+            </Button>
+          </Magnetic>
         </motion.div>
 
-        <motion.div
-          {...rise(0.34)}
-          className="mt-16 grid grid-cols-2 gap-px border border-border bg-border md:mt-20 md:grid-cols-4"
-        >
-          {profile.stats.map((stat) => (
-            <div key={stat.label} className="bg-background px-4 py-5 md:px-5">
-              <p className="font-heading text-2xl font-semibold md:text-3xl">
-                {stat.value}
-                {stat.suffix}
-              </p>
-              <p className="mt-1 text-xs tracking-widest text-muted-foreground uppercase">
-                {stat.label}
-              </p>
-            </div>
-          ))}
-        </motion.div>
+        <Parallax offset={24} className="mt-16 md:mt-20">
+          <motion.div
+            {...rise(0.42)}
+            className="grid grid-cols-2 gap-px border border-border bg-border md:grid-cols-4"
+          >
+            {profile.stats.map((stat) => (
+              <div key={stat.label} className="bg-background px-4 py-5 md:px-5">
+                <p className="font-heading text-2xl font-semibold md:text-3xl">
+                  {stat.value}
+                  {stat.suffix}
+                </p>
+                <p className="mt-1 text-xs tracking-widest text-muted-foreground uppercase">
+                  {stat.label}
+                </p>
+              </div>
+            ))}
+          </motion.div>
+        </Parallax>
       </div>
     </section>
   )
