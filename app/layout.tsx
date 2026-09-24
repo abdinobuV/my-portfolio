@@ -2,7 +2,9 @@ import { Geist_Mono, Noto_Sans, Playfair_Display } from "next/font/google"
 import type { Metadata } from "next"
 
 import "./globals.css"
+import "lenis/dist/lenis.css"
 import { ThemeProvider } from "@/components/theme-provider"
+import { LenisProvider } from "@/components/providers/lenis-provider"
 import { Navbar } from "@/components/layout/navbar"
 import { Footer } from "@/components/layout/footer"
 import { TooltipProvider } from "@/components/ui/tooltip"
@@ -59,17 +61,19 @@ export default function RootLayout({
     >
       <body className="min-h-svh bg-background text-foreground">
         <ThemeProvider>
-          <TooltipProvider delayDuration={200}>
-            <a
-              href="#konten"
-              className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:border focus:border-border focus:bg-background focus:px-3 focus:py-2 focus:text-sm"
-            >
-              Lewati ke konten
-            </a>
-            <Navbar />
-            <main id="konten">{children}</main>
-            <Footer />
-          </TooltipProvider>
+          <LenisProvider>
+            <TooltipProvider delayDuration={200}>
+              <a
+                href="#konten"
+                className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:border focus:border-border focus:bg-background focus:px-3 focus:py-2 focus:text-sm"
+              >
+                Lewati ke konten
+              </a>
+              <Navbar />
+              <main id="konten">{children}</main>
+              <Footer />
+            </TooltipProvider>
+          </LenisProvider>
         </ThemeProvider>
       </body>
     </html>

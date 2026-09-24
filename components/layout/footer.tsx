@@ -11,7 +11,7 @@ function Footer() {
       className="border-t border-border px-6 py-10 md:px-10 lg:px-16"
     >
       <div className="mx-auto w-full max-w-5xl">
-        <Reveal>
+        <Reveal exit={false}>
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="font-heading text-sm font-semibold tracking-widest uppercase">

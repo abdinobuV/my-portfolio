@@ -1,5 +1,8 @@
+"use client"
+
 import * as React from "react"
 import { cn } from "cn"
+import { Reveal } from "@/components/animations/reveal"
 
 function Section({
   id,
@@ -33,7 +36,7 @@ function SectionHeading({
   className?: string
 }) {
   return (
-    <div className={cn("mb-10 md:mb-14", className)}>
+    <Reveal className={cn("mb-10 md:mb-14", className)}>
       <div className="mb-4 flex items-baseline gap-4 border-b border-border pb-3">
         {index ? (
           <span className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
@@ -49,7 +52,7 @@ function SectionHeading({
           {description}
         </p>
       ) : null}
-    </div>
+    </Reveal>
   )
 }
 

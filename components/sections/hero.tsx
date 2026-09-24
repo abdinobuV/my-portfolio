@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { profile } from "@/content/profile"
 import { Badge } from "@/components/ui/badge"
 import { Magnetic } from "@/components/animations/magnetic"
+import { MicroTilt } from "@/components/animations/micro-tilt"
 import { StaggerText } from "@/components/animations/stagger-text"
 import { Parallax } from "@/components/animations/parallax"
 import { motionTheme } from "@/motion.theme"
@@ -34,9 +35,11 @@ function Hero() {
     >
       <div className="mx-auto w-full max-w-5xl">
         <motion.div {...rise(0)} className="mb-6 flex flex-wrap items-center gap-3">
-          <Badge variant="outline" className="border-border px-2 py-1">
-            Portfolio / {profile.year}
-          </Badge>
+          <MicroTilt strength={4} className="inline-block">
+            <Badge variant="outline" className="border-border px-2 py-1">
+              Portfolio / {profile.year}
+            </Badge>
+          </MicroTilt>
           <span className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
             {profile.location}
           </span>
@@ -77,22 +80,24 @@ function Hero() {
         </motion.div>
 
         <Parallax offset={24} className="mt-16 md:mt-20">
-          <motion.div
-            {...rise(0.42)}
-            className="grid grid-cols-2 gap-px border border-border bg-border md:grid-cols-4"
-          >
-            {profile.stats.map((stat) => (
-              <div key={stat.label} className="bg-background px-4 py-5 md:px-5">
-                <p className="font-heading text-2xl font-semibold md:text-3xl">
-                  {stat.value}
-                  {stat.suffix}
-                </p>
-                <p className="mt-1 text-xs tracking-widest text-muted-foreground uppercase">
-                  {stat.label}
-                </p>
-              </div>
-            ))}
-          </motion.div>
+          <MicroTilt strength={8}>
+            <motion.div
+              {...rise(0.42)}
+              className="grid grid-cols-2 gap-px border border-border bg-border md:grid-cols-4"
+            >
+              {profile.stats.map((stat) => (
+                <div key={stat.label} className="bg-background px-4 py-5 md:px-5">
+                  <p className="font-heading text-2xl font-semibold md:text-3xl">
+                    {stat.value}
+                    {stat.suffix}
+                  </p>
+                  <p className="mt-1 text-xs tracking-widest text-muted-foreground uppercase">
+                    {stat.label}
+                  </p>
+                </div>
+              ))}
+            </motion.div>
+          </MicroTilt>
         </Parallax>
       </div>
     </section>

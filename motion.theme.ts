@@ -15,6 +15,11 @@ export const motionTheme = {
   },
   travel: {
     section: 48,
+    tilt: 6,
+  },
+  scrub: {
+    /** Opacity floor saat section meninggalkan viewport atas. */
+    exitOpacity: 0.2,
   },
 } as const
 
