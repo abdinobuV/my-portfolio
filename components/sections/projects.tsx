@@ -1,4 +1,7 @@
-import { ArrowUpRightIcon } from "lucide-react"
+"use client"
+
+import { useState } from "react"
+import { ArrowUpRightIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react"
 
 import { Section, SectionHeading } from "@/components/layout/section"
 import { Reveal } from "@/components/animations/reveal"
@@ -139,7 +142,14 @@ function ProjectCard({
   )
 }
 
+const FEATURED_COUNT = 3
+
 function Projects() {
+  const [showAll, setShowAll] = useState(false)
+  const visibleProjects = showAll
+    ? projects
+    : projects.slice(0, FEATURED_COUNT)
+
   return (
     <Section id="proyek">
       <SectionHeading
@@ -150,16 +160,30 @@ function Projects() {
 
       <Reveal>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
-          {projects.map((project) => (
+          {visibleProjects.map((project, index) => (
             <ProjectCard
               key={project.slug}
               project={project}
-              index={projects.indexOf(project)}
-              total={projects.length}
+              index={index}
+              total={visibleProjects.length}
             />
           ))}
         </div>
       </Reveal>
+
+      {projects.length > FEATURED_COUNT ? (
+        <Reveal className="mt-8 flex justify-center md:mt-10">
+          <Button
+            variant="outline"
+            size="lg"
+            onClick={() => setShowAll((value) => !value)}
+            aria-expanded={showAll}
+          >
+            {showAll ? "Sembunyikan proyek lain" : "Lihat proyek lain"}
+            {showAll ? <ChevronUpIcon /> : <ChevronDownIcon />}
+          </Button>
+        </Reveal>
+      ) : null}
     </Section>
   )
 }
