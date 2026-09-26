@@ -5,6 +5,7 @@ import { useTheme } from "next-themes"
 import { MoonIcon, SunIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
+import { transitionTheme } from "@/lib/theme-transition"
 
 function subscribe(callback: () => void) {
   window.addEventListener("resume", callback)
@@ -21,8 +22,12 @@ function ThemeToggle({ className }: { className?: string }) {
 
   const isDark = mounted && resolvedTheme === "dark"
 
-  function toggle() {
-    setTheme(isDark ? "light" : "dark")
+  function toggle(event: React.MouseEvent<HTMLButtonElement>) {
+    const rect = event.currentTarget.getBoundingClientRect()
+    transitionTheme(() => setTheme(isDark ? "light" : "dark"), {
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2,
+    })
   }
 
   return (

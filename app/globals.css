@@ -5,11 +5,11 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-    --background: oklch(1 0 0);
+    --background: oklch(0.977 0.007 85);
     --foreground: oklch(0.147 0.004 49.3);
-    --card: oklch(1 0 0);
+    --card: oklch(0.995 0.003 85);
     --card-foreground: oklch(0.147 0.004 49.3);
-    --popover: oklch(1 0 0);
+    --popover: oklch(0.995 0.003 85);
     --popover-foreground: oklch(0.147 0.004 49.3);
     --primary: oklch(0.214 0.009 43.1);
     --primary-foreground: oklch(0.986 0.002 67.8);
@@ -320,6 +320,24 @@ html:not(.dark) .tech-brand[data-tone="light"] path {
 
 ::view-transition {
   pointer-events: none;
+}
+
+/* theme change — sweep lingkaran dari posisi tombol (kelas .theme-sweep di <html>, dipasang lib/theme-transition.ts) */
+@keyframes theme-reveal {
+  from {
+    clip-path: circle(0 at var(--theme-x, 50vw) var(--theme-y, 50vh));
+  }
+  to {
+    clip-path: circle(150vmax at var(--theme-x, 50vw) var(--theme-y, 50vh));
+  }
+}
+
+html.theme-sweep::view-transition-old(root) {
+  animation: none;
+}
+
+html.theme-sweep::view-transition-new(root) {
+  animation: theme-reveal 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 /* journey: horizontal pin at lg+ (motion allowed), vertical list otherwise */
