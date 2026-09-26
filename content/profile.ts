@@ -12,24 +12,22 @@ export const profile = {
     },
     { type: "chip", value: "Computer Networking" },
     { type: "chip", value: "Linux" },
-    { type: "chip", value: "Educational Technology" },
     {
       type: "text",
       value:
-        "— senang mempelajari cara kerja jaringan komputer, konfigurasi sistem, media pembelajaran digital, serta pengembangan website dan aplikasi sederhana.",
+        "— senang mempelajari cara kerja jaringan komputer, konfigurasi sistem, serta pengembangan website dan aplikasi sederhana.",
     },
   ],
   /** Profile — portfolio-data.md */
-  bio: "Saya adalah mahasiswa Pendidikan Teknologi Informatika dan Komputer di Universitas Negeri Medan. Saya memiliki latar belakang Teknik Komputer dan Jaringan dari SMK, dengan minat utama pada computer networking, Linux, dan pengembangan teknologi pembelajaran.",
+  bio: "Saya adalah mahasiswa Pendidikan Teknologi Informatika dan Komputer di Universitas Negeri Medan. Saya memiliki latar belakang Teknik Komputer dan Jaringan dari SMK, dengan minat utama pada computer networking dan Linux.",
   /** Profile paragraf 2 — portfolio-data.md */
   bioSecondary:
-    "Saya senang mempelajari cara kerja jaringan komputer, melakukan konfigurasi sistem, membuat media pembelajaran digital, serta mengembangkan website dan aplikasi sederhana. Saat ini, saya terus mengembangkan kemampuan teknis dan komunikasi melalui berbagai latihan, proyek, dan kegiatan akademik.",
+    "Saya senang mempelajari cara kerja jaringan komputer, melakukan konfigurasi sistem, serta mengembangkan website dan aplikasi sederhana. Saat ini, saya terus mengembangkan kemampuan teknis dan komunikasi melalui berbagai latihan, proyek, dan kegiatan akademik.",
   /** Focus Areas — portfolio-data.md */
   focusAreas: [
     "Computer Networking",
     "Linux dan administrasi sistem dasar",
     "Educational Technology",
-    "Learning Media Development",
     "Web Development",
     "UI/UX dan desain antarmuka",
   ],
@@ -50,7 +48,6 @@ export const profile = {
     "Linux dan Debian",
     "Administrasi sistem",
     "Educational technology",
-    "Learning media development",
     "Web development",
     "UI/UX design",
     "Eksplorasi teknologi baru",
@@ -61,7 +58,7 @@ export const profile = {
   institution: "Universitas Negeri Medan",
   /** Tile "Sekarang" di section Tentang */
   nowText:
-    "Sedang memperdalam computer networking, Linux, dan pengembangan media pembelajaran digital, sambil terus mengasah kemampuan teknis dan komunikasi lewat latihan, proyek, dan kegiatan akademik.",
+    "Sedang memperdalam computer networking dan Linux, sambil terus mengasah kemampuan teknis dan komunikasi lewat latihan, proyek, dan kegiatan akademik.",
   /** Tile "Stack utama" di section Tentang (diambil dari Hard Skills web + database + version control) */
   mainStack: [
     "HTML",

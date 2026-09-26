@@ -13,7 +13,7 @@ export const timeline: TimelineItem[] = [
     title: "Pendidikan Teknologi Informatika dan Komputer",
     org: "Universitas Negeri Medan",
     description:
-      "Program studi S1 dengan status mahasiswa, di Medan, Indonesia. Fokus belajar pada computer networking, Linux, educational technology, dan pengembangan media pembelajaran.",
+      "Program studi S1 dengan status mahasiswa, di Medan, Indonesia. Fokus belajar pada computer networking dan Linux.",
     kind: "pendidikan",
   },
   {

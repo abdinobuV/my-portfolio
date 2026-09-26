@@ -39,7 +39,11 @@ function About() {
             </p>
             <div className="mt-3 flex flex-wrap gap-2">
               {profile.focusAreas.map((item) => (
-                <Badge key={item} variant="secondary" className="px-2 py-1">
+                <Badge
+                  key={item}
+                  variant="secondary"
+                  className="shrink justify-start px-2 py-1 break-words whitespace-normal"
+                >
                   {item}
                 </Badge>
               ))}
@@ -52,7 +56,11 @@ function About() {
             </p>
             <div className="mt-3 flex flex-wrap gap-2">
               {profile.interests.map((item) => (
-                <Badge key={item} variant="outline" className="px-2 py-1">
+                <Badge
+                  key={item}
+                  variant="outline"
+                  className="shrink justify-start px-2 py-1 break-words whitespace-normal"
+                >
                   {item}
                 </Badge>
               ))}
