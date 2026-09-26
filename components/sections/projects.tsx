@@ -37,6 +37,10 @@ function TagBadge({
   )
 }
 
+function projectMeta(project: Project) {
+  return `${project.year ? `${project.year} — ` : ""}${project.status}`
+}
+
 function ProjectCard({
   project,
   index,
@@ -72,14 +76,14 @@ function ProjectCard({
                 {String(total).padStart(2, "0")}
               </span>
               <span className="absolute right-3 bottom-3 font-heading text-4xl font-semibold tracking-tight text-foreground/10 md:text-5xl">
-                {project.year}
+                {project.year ?? ""}
               </span>
             </div>
             <div className="flex flex-1 flex-col justify-between p-5 md:p-6">
               <div>
                 <div className="flex items-start justify-between gap-3">
                   <p className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
-                    {project.year} — {project.status}
+                    {projectMeta(project)}
                   </p>
                   <ArrowUpRightIcon
                     className="size-4 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground"
@@ -111,7 +115,7 @@ function ProjectCard({
         />
         <DialogHeader>
           <p className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
-            {project.year} — {project.status}
+            {projectMeta(project)} · {project.category}
           </p>
           <DialogTitle className="font-heading text-xl tracking-wide">
             {project.title}
@@ -146,16 +150,14 @@ const FEATURED_COUNT = 3
 
 function Projects() {
   const [showAll, setShowAll] = useState(false)
-  const visibleProjects = showAll
-    ? projects
-    : projects.slice(0, FEATURED_COUNT)
+  const visibleProjects = showAll ? projects : projects.slice(0, FEATURED_COUNT)
 
   return (
     <Section id="proyek">
       <SectionHeading
         index="03"
         title="Proyek"
-        description="Tiga karya utama. Klik kartu untuk melihat detail."
+        description="Karya dan latihan yang pernah saya kerjakan. Klik kartu untuk melihat detail."
       />
 
       <Reveal>

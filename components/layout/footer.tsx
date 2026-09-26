@@ -18,8 +18,8 @@ function Footer() {
                 {profile.name}
               </p>
               <p className="mt-2 max-w-sm text-sm text-muted-foreground">
-                Portfolio & journal belajar. Dibangun dengan Next.js, shadcn/ui, dan
-                Tailwind CSS.
+                Portfolio & catatan belajar. Dibangun dengan Next.js, Tailwind
+                CSS, dan shadcn/ui.
               </p>
             </div>
 
@@ -31,14 +31,14 @@ function Footer() {
                     href={s.href}
                     target={s.href.startsWith("http") ? "_blank" : undefined}
                     rel={s.href.startsWith("http") ? "noreferrer" : undefined}
-                    className="text-xs font-semibold tracking-widest uppercase text-muted-foreground transition-colors hover:text-foreground"
+                    className="text-xs font-semibold tracking-widest text-muted-foreground uppercase transition-colors hover:text-foreground"
                   >
                     {s.label}
                   </a>
                 ))}
                 <Link
                   href="/blog"
-                  className="text-xs font-semibold tracking-widest uppercase text-muted-foreground transition-colors hover:text-foreground"
+                  className="text-xs font-semibold tracking-widest text-muted-foreground uppercase transition-colors hover:text-foreground"
                 >
                   Blog
                 </Link>

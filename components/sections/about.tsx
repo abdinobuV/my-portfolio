@@ -3,13 +3,6 @@ import { Reveal } from "@/components/animations/reveal"
 import { profile } from "@/content/profile"
 import { Badge } from "@/components/ui/badge"
 
-const highlights = [
-  "TypeScript & React",
-  "Next.js App Router",
-  "Aksesibilitas",
-  "Desain responsif",
-]
-
 function About() {
   return (
     <Section id="tentang">
@@ -29,10 +22,7 @@ function About() {
               {profile.bio}
             </p>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-              Saya percaya interface yang baik itu tenang: hierarki jelas, gerak
-              punya tujuan, dan setiap piksel punya alasan. Di setiap proyek saya
-              mencoba menyeimbangkan kecepatan pengembangan dengan kualitas jangka
-              panjang — supaya kode tetap enak dibaca enam bulan kemudian.
+              {profile.bioSecondary}
             </p>
           </div>
 
@@ -40,10 +30,7 @@ function About() {
             <p className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
               Sekarang
             </p>
-            <p className="mt-3 text-sm leading-relaxed">
-              Sedang memperdalam Server Components, testing, dan pola desain
-              editorial untuk web personal.
-            </p>
+            <p className="mt-3 text-sm leading-relaxed">{profile.nowText}</p>
           </div>
 
           <div className="border border-border bg-card p-5">
@@ -51,7 +38,7 @@ function About() {
               Fokus
             </p>
             <div className="mt-3 flex flex-wrap gap-2">
-              {highlights.map((item) => (
+              {profile.focusAreas.map((item) => (
                 <Badge key={item} variant="secondary" className="px-2 py-1">
                   {item}
                 </Badge>
@@ -61,11 +48,15 @@ function About() {
 
           <div className="border border-border bg-card p-5">
             <p className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
-              Prinsip
+              Minat
             </p>
-            <p className="font-heading mt-3 text-lg leading-snug font-semibold tracking-wide md:text-xl">
-              Hierarki jelas. Gerak punya alasan. Piksel punya tujuan.
-            </p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {profile.interests.map((item) => (
+                <Badge key={item} variant="outline" className="px-2 py-1">
+                  {item}
+                </Badge>
+              ))}
+            </div>
           </div>
 
           <div className="border border-border bg-card p-5 md:col-span-2">
@@ -73,10 +64,9 @@ function About() {
               Stack utama
             </p>
             <ul className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-              <li>TypeScript</li>
-              <li>React / Next.js</li>
-              <li>Tailwind CSS</li>
-              <li>shadcn/ui</li>
+              {profile.mainStack.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
             </ul>
           </div>
 
@@ -86,7 +76,7 @@ function About() {
             </p>
             <p className="mt-3 text-sm">{profile.location}</p>
             <p className="mt-1 font-mono text-xs text-muted-foreground">
-              Remote-friendly
+              {profile.institution}
             </p>
           </div>
 

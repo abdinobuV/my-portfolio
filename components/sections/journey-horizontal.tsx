@@ -36,7 +36,7 @@ function JourneyCard({ item }: { item: (typeof timeline)[number] }) {
         </p>
         <KindChip kind={item.kind} />
       </div>
-      <h3 className="font-heading mt-4 text-xl font-semibold tracking-wide md:text-2xl">
+      <h3 className="mt-4 font-heading text-xl font-semibold tracking-wide md:text-2xl">
         {item.title}
       </h3>
       <p className="mt-1 text-sm text-muted-foreground">{item.org}</p>
@@ -49,11 +49,8 @@ function VerticalJourney() {
   return (
     <Reveal>
       <ol className="relative space-y-0 border-l border-border">
-        {timeline.map((item) => (
-          <li
-            key={item.period}
-            className="relative pb-10 pl-6 last:pb-0 md:pl-8"
-          >
+        {timeline.map((item, index) => (
+          <li key={index} className="relative pb-10 pl-6 last:pb-0 md:pl-8">
             <span
               aria-hidden
               className="absolute top-1.5 -left-[5px] size-2.5 bg-foreground"
@@ -64,7 +61,7 @@ function VerticalJourney() {
               </p>
               <KindChip kind={item.kind} />
             </div>
-            <h3 className="font-heading mt-2 text-lg font-semibold tracking-wide">
+            <h3 className="mt-2 font-heading text-lg font-semibold tracking-wide">
               {item.title}
             </h3>
             <p className="text-sm text-muted-foreground">{item.org}</p>
@@ -94,7 +91,9 @@ function ProgressDot({
     if (isLast) return v >= start ? 1 : 0.3
     return v >= start && v < end ? 1 : 0.3
   })
-  return <motion.span style={{ opacity }} className="block size-1.5 bg-foreground" />
+  return (
+    <motion.span style={{ opacity }} className="block size-1.5 bg-foreground" />
+  )
 }
 
 function HorizontalTrack() {
@@ -106,7 +105,10 @@ function HorizontalTrack() {
     offset: ["start start", "end end"],
   })
   const rangeEnd = useMotionValue(0)
-  const x = useTransform([scrollYProgress, rangeEnd], ([p, end]: number[]) => -end * p)
+  const x = useTransform(
+    [scrollYProgress, rangeEnd],
+    ([p, end]: number[]) => -end * p
+  )
 
   React.useEffect(() => {
     const outer = ref.current
@@ -149,8 +151,8 @@ function HorizontalTrack() {
             className="flex gap-4 pb-6 md:gap-6"
             style={{ x }}
           >
-            {timeline.map((item) => (
-              <JourneyCard key={item.period} item={item} />
+            {timeline.map((item, index) => (
+              <JourneyCard key={index} item={item} />
             ))}
           </motion.div>
 
@@ -202,7 +204,7 @@ function JourneyHorizontal() {
             </h2>
           </div>
           <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
-            Ringkasan pengalaman kerja, pendidikan, dan kursus.
+            Ringkasan jalur pendidikan dan latar belakang akademik.
           </p>
         </Reveal>
         <p className="journey-hint hidden max-w-2xl text-sm leading-relaxed text-muted-foreground lg:block lg:text-base">

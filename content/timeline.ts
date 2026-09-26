@@ -6,37 +6,23 @@ export type TimelineItem = {
   kind: "kerja" | "pendidikan" | "kursus"
 }
 
+/** Education — portfolio-data.md */
 export const timeline: TimelineItem[] = [
   {
-    period: "2025 — Sekarang",
-    title: "Frontend Developer (Freelance)",
-    org: "Proyek klien & open source",
+    period: "2025 - Sekarang",
+    title: "Pendidikan Teknologi Informatika dan Komputer",
+    org: "Universitas Negeri Medan",
     description:
-      "Membangun landing page dan dashboard internal. Menangani aksesibilitas, optimasi performa, dan integrasi API sederhana.",
-    kind: "kerja",
+      "Program studi S1 dengan status mahasiswa, di Medan, Indonesia. Fokus belajar pada computer networking, Linux, educational technology, dan pengembangan media pembelajaran.",
+    kind: "pendidikan",
   },
   {
-    period: "2024 — 2025",
-    title: "Kursus Full-Stack Web",
-    org: "Platform kursus daring",
+    // TODO: portfolio-data.md — Nama SMK (masih placeholder)
+    period: "2022 - 2025",
+    title: "Teknik Komputer dan Jaringan",
+    org: "—",
     description:
-      "Menyelesaikan jalur belajar React, Node, dan database. Mengerjakan 6 proyek akhir termasuk aplikasi absensi dan toko online mini.",
-    kind: "kursus",
-  },
-  {
-    period: "2023 — 2024",
-    title: "Kontributor Documentation",
-    org: "Komunitas open source",
-    description:
-      "Menulis dan memperbaiki dokumentasi library frontend. Belajar membaca kode orang lain dan berkomunikasi secara asinkron.",
-    kind: "kerja",
-  },
-  {
-    period: "2021 — 2025",
-    title: "S1 Teknik Informatika",
-    org: "Universitas Contoh",
-    description:
-      "Fokus pada dasar algoritma, struktur data, dan rekayasa perangkat lunak. Skripsi tentang optimasi rendering dashboard data.",
+      "Program keahlian Teknik Komputer dan Jaringan di Sekolah Menengah Kejuruan — latar belakang dasar jaringan komputer, Linux, dan konfigurasi sistem.",
     kind: "pendidikan",
   },
 ]

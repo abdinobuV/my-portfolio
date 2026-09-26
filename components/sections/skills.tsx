@@ -3,6 +3,7 @@
 import { Section, SectionHeading } from "@/components/layout/section"
 import { Reveal } from "@/components/animations/reveal"
 import { skillCategories } from "@/content/skills"
+import { profile } from "@/content/profile"
 import { Progress } from "@/components/ui/progress"
 import { cn } from "cn"
 
@@ -16,14 +17,11 @@ function Skills() {
       />
 
       <Reveal>
-        <div className="grid gap-3 md:grid-cols-3 md:gap-4">
+        <div className="grid gap-3 md:grid-cols-2 md:gap-4">
           {skillCategories.map((cat, catIndex) => (
             <div
               key={cat.id}
-              className={cn(
-                "border border-border bg-card p-5 md:p-6",
-                catIndex === 0 && "md:col-span-2"
-              )}
+              className={cn("border border-border bg-card p-5 md:p-6")}
             >
               <div className="flex items-baseline justify-between gap-3 border-b border-border pb-3">
                 <h3 className="font-heading text-lg font-semibold tracking-wide md:text-xl">
@@ -52,23 +50,20 @@ function Skills() {
             </div>
           ))}
 
-          <div className="border border-border bg-card p-5 md:col-span-3 md:p-6">
+          <div className="border border-border bg-card p-5 md:col-span-2 md:p-6">
             <p className="font-mono text-xs tracking-widest text-muted-foreground uppercase">
-              Sedang dipelajari
+              Soft skills
             </p>
-            <ul className="mt-4 space-y-3 text-sm">
-              <li className="flex items-center justify-between border-b border-border pb-3">
-                <span>Server Components</span>
-                <span aria-hidden className="size-2 bg-foreground" />
-              </li>
-              <li className="flex items-center justify-between border-b border-border pb-3">
-                <span>Testing Library</span>
-                <span aria-hidden className="size-2 bg-foreground" />
-              </li>
-              <li className="flex items-center justify-between">
-                <span>Pola desain editorial</span>
-                <span aria-hidden className="size-2 bg-foreground" />
-              </li>
+            <ul className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
+              {profile.softSkills.map((item) => (
+                <li
+                  key={item}
+                  className="flex items-center justify-between border-b border-border pb-3"
+                >
+                  <span>{item}</span>
+                  <span aria-hidden className="size-2 bg-foreground" />
+                </li>
+              ))}
             </ul>
             <p className="mt-6 text-xs leading-relaxed text-muted-foreground">
               Angka pada tiap tile adalah self-assessment — dipakai sebagai peta

@@ -29,18 +29,21 @@ const fontMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Abdi Raihan Wibowo — Frontend Developer",
+    // TODO: portfolio-data.md — konfirmasi nama lengkap
+    default:
+      "Abdi Raihan Wibowo — Mahasiswa Pendidikan Teknologi Informatika dan Komputer",
     template: "%s — Abdi Raihan Wibowo",
   },
   description:
-    "Portfolio dan journal belajar Abdi Raihan Wibowo, frontend developer dari Indonesia. Proyek, keahlian, dan catatan pengembangan diri.",
+    "Portfolio Abdi Raihan Wibowo, mahasiswa Pendidikan Teknologi Informatika dan Komputer di Universitas Negeri Medan. Minat pada computer networking, Linux, educational technology, dan pengembangan web.",
   keywords: [
     "portfolio",
-    "frontend developer",
-    "Next.js",
-    "React",
-    "Indonesia",
-    "journal belajar",
+    "computer networking",
+    "Linux",
+    "pendidikan teknologi informatika",
+    "Universitas Negeri Medan",
+    "educational technology",
+    "web development",
   ],
 }
 

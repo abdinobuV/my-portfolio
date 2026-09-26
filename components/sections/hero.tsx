@@ -15,7 +15,11 @@ import { linkedinIcon } from "@/components/icons/linkedin"
 import { techIconByLabel } from "@/content/technologies"
 import { motionTheme } from "@/motion.theme"
 
-function SocialIcon({ kind }: { kind: (typeof profile.socials)[number]["icon"] }) {
+function SocialIcon({
+  kind,
+}: {
+  kind: (typeof profile.socials)[number]["icon"]
+}) {
   if (kind === "github") return <TechIcon icon={siGithub} size={18} />
   if (kind === "linkedin") return <TechIcon icon={linkedinIcon} size={18} />
   return <MailIcon aria-hidden size={18} />
@@ -94,9 +98,11 @@ function Hero() {
             segment.type === "chip" ? (
               <span
                 key={index}
-                className="ml-1 inline-flex items-center gap-1.5 rounded-md border border-dashed border-border bg-background px-2 py-1 text-xs text-foreground/80 align-middle sm:px-2.5 sm:text-sm"
+                className="ml-1 inline-flex items-center gap-1.5 rounded-md border border-dashed border-border bg-background px-2 py-1 align-middle text-xs text-foreground/80 sm:px-2.5 sm:text-sm"
               >
-                <TechIcon icon={techIconByLabel[segment.value]} size={14} />
+                {techIconByLabel[segment.value] ? (
+                  <TechIcon icon={techIconByLabel[segment.value]} size={14} />
+                ) : null}
                 {segment.value}
               </span>
             ) : (
