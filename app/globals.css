@@ -322,13 +322,19 @@ html:not(.dark) .tech-brand[data-tone="light"] path {
   pointer-events: none;
 }
 
-/* theme change — sweep lingkaran dari posisi tombol (kelas .theme-sweep di <html>, dipasang lib/theme-transition.ts) */
+/* theme change — glow radial lembut dari posisi tombol (kelas .theme-sweep di <html>, dipasang lib/theme-transition.ts) */
+@property --theme-r {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
 @keyframes theme-reveal {
   from {
-    clip-path: circle(0 at var(--theme-x, 50vw) var(--theme-y, 50vh));
+    --theme-r: 0px;
   }
   to {
-    clip-path: circle(150vmax at var(--theme-x, 50vw) var(--theme-y, 50vh));
+    --theme-r: 165vmax;
   }
 }
 
@@ -337,7 +343,13 @@ html.theme-sweep::view-transition-old(root) {
 }
 
 html.theme-sweep::view-transition-new(root) {
-  animation: theme-reveal 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --theme-feather: 12vmax;
+  mask-image: radial-gradient(
+    circle at var(--theme-x, 50vw) var(--theme-y, 50vh),
+    #000 calc(var(--theme-r) - var(--theme-feather)),
+    transparent var(--theme-r)
+  );
+  animation: theme-reveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 /* journey: horizontal pin at lg+ (motion allowed), vertical list otherwise */

@@ -4,14 +4,25 @@
  * `setTheme` dari next-themes adalah setState biasa, jadi `<ViewTransition>`
  * React tidak aktif — di sinilah `document.startViewTransition()` dipakai.
  * Selama transisi berjalan kelas `theme-sweep` dipasang di <html>;
- * CSS-nya ada di app/globals.css (sweep lingkaran dari `--theme-x`/`--theme-y`).
+ * CSS-nya ada di app/globals.css (glow radial bertepi lembut dari
+ * `--theme-x`/`--theme-y`).
+ *
+ * Header/footer memakai `view-transition-name` persisten (untuk anchoring
+ * navigasi halaman). Selama ganti tema nama itu dinetralkan sementara
+ * supaya mereka ikut snapshot `root` dan meleleh bersama halaman — bukan
+ * loncat langsung ke tema baru.
  */
 
 type TransitionLike = { finished: Promise<void> }
 type StartViewTransition = (update: () => void | Promise<void>) => TransitionLike
 
+type SavedAnchor = { el: HTMLElement; value: string; priority: string }
+
 /** Pakai token supaya toggle cepat-berturut tidak saling menghapus kelas. */
 let runId = 0
+
+/** Nilai asli view-transition-name; hanya disimpan sekali antar toggle cepat. */
+let savedAnchors: SavedAnchor[] | null = null
 
 function reducedMotion() {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -23,12 +34,40 @@ function setOrigin(x?: number, y?: number) {
   root.style.setProperty("--theme-y", `${y ?? window.innerHeight / 2}px`)
 }
 
+function stripAnchors() {
+  if (savedAnchors) return
+  const els = document.querySelectorAll<HTMLElement>(
+    '[style*="view-transition-name"]:not([vt-name])'
+  )
+  savedAnchors = Array.from(els, (el) => ({
+    el,
+    value: el.style.getPropertyValue("view-transition-name"),
+    priority: el.style.getPropertyPriority("view-transition-name"),
+  }))
+  for (const { el } of savedAnchors) {
+    el.style.setProperty("view-transition-name", "none", "important")
+  }
+}
+
+function restoreAnchors() {
+  if (!savedAnchors) return
+  for (const { el, value, priority } of savedAnchors) {
+    if (value) {
+      el.style.setProperty("view-transition-name", value, priority)
+    } else {
+      el.style.removeProperty("view-transition-name")
+    }
+  }
+  savedAnchors = null
+}
+
 function clearThemeSweep(id: number) {
   if (id !== runId) return
   const root = document.documentElement
   root.classList.remove("theme-sweep")
   root.style.removeProperty("--theme-x")
   root.style.removeProperty("--theme-y")
+  restoreAnchors()
 }
 
 /** Tunggu sampai React selesai commit (kelas .dark/terang sudah di <html>). */
@@ -57,6 +96,7 @@ export function transitionTheme(
   const root = document.documentElement
   setOrigin(origin?.x, origin?.y)
   root.classList.add("theme-sweep")
+  stripAnchors()
 
   const wrapped = async () => {
     update()
