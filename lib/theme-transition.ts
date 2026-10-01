@@ -91,8 +91,12 @@ export function transitionTheme(
     return
   }
 
-  const start = document.startViewTransition as StartViewTransition | undefined
-  if (!start || reducedMotion()) {
+  // Panggil via .call(document, ...): native API throw "Illegal invocation"
+  // bila referensinya dilepas dari receiver-nya.
+  const startViewTransition = document.startViewTransition as
+    | StartViewTransition
+    | undefined
+  if (!startViewTransition || reducedMotion()) {
     update()
     return
   }
@@ -110,7 +114,7 @@ export function transitionTheme(
 
   let transition: TransitionLike | undefined
   try {
-    transition = start(wrapped)
+    transition = startViewTransition.call(document, wrapped)
   } catch {
     clearThemeSweep(id)
     update()
