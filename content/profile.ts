@@ -70,12 +70,12 @@ export const profile = {
     "MySQL",
     "Git",
   ],
-  /** TODO: portfolio-data.md — foto profil masih placeholder SVG */
+  /** Foto profil hero (klik lingkaran untuk ganti). */
   photos: [
-    { src: "/avatars/avatar-1.svg", alt: "Foto profil Abdi Raihan Wibowo" },
+    { src: "/avatars/avatar-1.jpg", alt: "Foto profil Abdi Raihan Wibowo" },
     {
-      src: "/avatars/avatar-2.svg",
-      alt: "Foto profil alternatif (placeholder)",
+      src: "/avatars/avatar-2.jpg",
+      alt: "Foto profil alternatif Abdi Raihan Wibowo",
     },
   ],
   email: "abdi.raihan.wibowo@gmail.com",
