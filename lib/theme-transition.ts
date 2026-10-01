@@ -75,10 +75,20 @@ function clearThemeSweep(id: number) {
   restoreAnchors()
 }
 
-/** Tunggu sampai React selesai commit (kelas .dark/terang sudah di <html>). */
+/** Tunggu sampai React selesai commit (kelas .dark/terang sudah di <html>).
+ * setTimeout sebagai pengaman: resolve walau frame macet, supaya promise
+ * update tidak pernah menggantung (Chromium meng-abort dengan TimeoutError). */
 function nextPaint() {
   return new Promise<void>((resolve) => {
-    requestAnimationFrame(() => requestAnimationFrame(() => resolve()))
+    let settled = false
+    const done = () => {
+      if (!settled) {
+        settled = true
+        resolve()
+      }
+    }
+    requestAnimationFrame(() => requestAnimationFrame(done))
+    setTimeout(done, 120)
   })
 }
 
@@ -96,7 +106,13 @@ export function transitionTheme(
   const startViewTransition = document.startViewTransition as
     | StartViewTransition
     | undefined
-  if (!startViewTransition || reducedMotion()) {
+  // Tab hidden: rAF bekukan → promise update menggantung → Chromium
+  // meng-abort dengan TimeoutError. Langsung ganti tema tanpa transisi.
+  if (
+    !startViewTransition ||
+    reducedMotion() ||
+    document.visibilityState === "hidden"
+  ) {
     update()
     return
   }
