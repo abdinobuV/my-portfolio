@@ -7,9 +7,9 @@ import { MoonIcon, SunIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { transitionTheme } from "@/lib/theme-transition"
 
-function subscribe(callback: () => void) {
-  window.addEventListener("resume", callback)
-  return () => window.removeEventListener("resume", callback)
+/** Gate hydration: false saat SSR/hydration, true setelah komit di klien. */
+function subscribe() {
+  return () => {}
 }
 
 function ThemeToggle({ className }: { className?: string }) {
@@ -45,15 +45,8 @@ function ThemeToggle({ className }: { className?: string }) {
       }
       title="Ganti tema (d)"
     >
-      {mounted ? (
-        isDark ? (
-          <SunIcon />
-        ) : (
-          <MoonIcon />
-        )
-      ) : (
-        <span className="size-3.5" aria-hidden />
-      )}
+      <SunIcon className="hidden dark:block" />
+      <MoonIcon className="block dark:hidden" />
     </Button>
   )
 }

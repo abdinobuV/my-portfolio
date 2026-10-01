@@ -3,8 +3,11 @@
  *
  * `setTheme` dari next-themes adalah setState biasa, jadi `<ViewTransition>`
  * React tidak aktif — di sinilah `document.startViewTransition()` dipakai.
+ * Di dalam callback update, `flushSync` memaksa commit React sinkron, lalu
+ * `nextPaint` menunggu useEffect next-themes (pemasangan class .dark) + paint
+ * sebelum browser meng-capture snapshot baru.
  * Selama transisi berjalan kelas `theme-sweep` dipasang di <html>;
- * CSS-nya ada di app/globals.css (glow radial bertepi lembut dari
+ * CSS-nya ada di app/globals.css (reveal lingkaran + feather lembut dari
  * `--theme-x`/`--theme-y`).
  *
  * Header/footer memakai `view-transition-name` persisten (untuk anchoring
@@ -12,6 +15,8 @@
  * supaya mereka ikut snapshot `root` dan meleleh bersama halaman — bukan
  * loncat langsung ke tema baru.
  */
+
+import { flushSync } from "react-dom"
 
 type TransitionLike = { finished: Promise<void> }
 type StartViewTransition = (update: () => void | Promise<void>) => TransitionLike
@@ -99,7 +104,7 @@ export function transitionTheme(
   stripAnchors()
 
   const wrapped = async () => {
-    update()
+    flushSync(update)
     await nextPaint()
   }
 

@@ -322,7 +322,21 @@ html:not(.dark) .tech-brand[data-tone="light"] path {
   pointer-events: none;
 }
 
-/* theme change — glow radial lembut dari posisi tombol (kelas .theme-sweep di <html>, dipasang lib/theme-transition.ts) */
+/* base root pair — old dibekukan, new reveal di atasnya (new > old) */
+::view-transition-old(root),
+::view-transition-new(root) {
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  animation: none;
+}
+
+::view-transition-new(root) {
+  z-index: 1;
+}
+
+/* theme change — reveal lingkaran + feather lembut dari posisi tombol (kelas .theme-sweep di <html>, dipasang lib/theme-transition.ts) */
 @property --theme-r {
   syntax: "<length>";
   inherits: false;
@@ -338,12 +352,11 @@ html:not(.dark) .tech-brand[data-tone="light"] path {
   }
 }
 
-html.theme-sweep::view-transition-old(root) {
-  animation: none;
-}
-
 html.theme-sweep::view-transition-new(root) {
   --theme-feather: 12vmax;
+  clip-path: circle(
+    var(--theme-r) at var(--theme-x, 50vw) var(--theme-y, 50vh)
+  );
   mask-image: radial-gradient(
     circle at var(--theme-x, 50vw) var(--theme-y, 50vh),
     #000 calc(var(--theme-r) - var(--theme-feather)),
