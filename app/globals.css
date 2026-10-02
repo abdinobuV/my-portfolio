@@ -336,7 +336,7 @@ html:not(.dark) .tech-brand[data-tone="light"] path {
   z-index: 1;
 }
 
-/* theme change — reveal lingkaran + feather lembut dari posisi tombol (kelas .theme-sweep di <html>, dipasang lib/theme-transition.ts) */
+/* theme change — reveal lingkaran dari posisi tombol (kelas .theme-sweep di <html>, dipasang lib/theme-transition.ts) */
 @property --theme-r {
   syntax: "<length>";
   inherits: false;
@@ -353,16 +353,13 @@ html:not(.dark) .tech-brand[data-tone="light"] path {
 }
 
 html.theme-sweep::view-transition-new(root) {
-  --theme-feather: 12vmax;
+  /* clip-path saja, tanpa mask: murah di compositor (tanpa repaint
+     full-screen tiap frame) sehingga 60fps stabil. Mask gradient
+     radial memaksa re-raster tiap frame → jank saat transisi. */
   clip-path: circle(
     var(--theme-r) at var(--theme-x, 50vw) var(--theme-y, 50vh)
   );
-  mask-image: radial-gradient(
-    circle at var(--theme-x, 50vw) var(--theme-y, 50vh),
-    #000 calc(var(--theme-r) - var(--theme-feather)),
-    transparent var(--theme-r)
-  );
-  animation: theme-reveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: theme-reveal 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 /* journey: horizontal pin at lg+ (motion allowed), vertical list otherwise */
