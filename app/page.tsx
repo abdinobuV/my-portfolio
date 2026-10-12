@@ -16,9 +16,17 @@ export default function Page() {
       <>
         <Hero />
         <div className="border-y border-border bg-card/50 py-4">
-          <p className="mb-3 px-6 font-mono text-[0.625rem] tracking-widest text-muted-foreground uppercase md:px-10 lg:px-16">
-            Teknologi yang dipakai
-          </p>
+          <div className="mb-3 flex items-center justify-between px-6 md:px-10 lg:px-16">
+            <p className="font-mono text-[0.625rem] tracking-widest text-muted-foreground uppercase">
+              Teknologi yang dipakai
+            </p>
+            <a
+              href="#keahlian"
+              className="font-mono text-[0.625rem] tracking-widest text-muted-foreground uppercase transition-colors hover:text-foreground"
+            >
+              Lihat semua <span aria-hidden>→</span>
+            </a>
+          </div>
           <TechMarquee items={technologies} duration={50} />
         </div>
         <About />
