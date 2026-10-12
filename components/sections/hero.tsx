@@ -1,6 +1,7 @@
 "use client"
 
 import { motion, useReducedMotion } from "framer-motion"
+import dynamic from "next/dynamic"
 import { ArrowRightIcon, MailIcon } from "lucide-react"
 import { siGithub } from "simple-icons"
 
@@ -14,6 +15,11 @@ import { TechIcon } from "@/components/tech-icon"
 import { linkedinIcon } from "@/components/icons/linkedin"
 import { techIconByLabel } from "@/content/technologies"
 import { motionTheme } from "@/motion.theme"
+
+const HeroCanvas = dynamic(
+  () => import("@/components/three/hero-canvas").then((mod) => mod.HeroCanvas),
+  { ssr: false }
+)
 
 function SocialIcon({
   kind,
@@ -44,9 +50,14 @@ function Hero() {
     <section
       id="atas"
       aria-labelledby="hero-heading"
-      className="px-6 pt-16 pb-20 md:px-10 md:pt-24 md:pb-28 lg:px-16"
+      className="relative overflow-hidden px-6 pt-16 pb-20 md:px-10 md:pt-24 md:pb-28 lg:px-16"
     >
-      <div className="mx-auto w-full max-w-5xl">
+      <HeroCanvas />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-gradient-to-b from-background/10 via-background/60 to-background"
+      />
+      <div className="relative z-10 mx-auto w-full max-w-5xl">
         <motion.div {...rise(0)} className="flex items-center gap-4 sm:gap-6">
           <MicroTilt strength={4} className="inline-block shrink-0">
             <PixelTransition

@@ -406,3 +406,38 @@ html.theme-sweep::view-transition-new(root) {
     animation-delay: 0s !important;
   }
 }
+
+/* hero webgl — network constellation backdrop */
+.hero-webgl canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-webgl-fallback {
+  background:
+    radial-gradient(
+      42rem 22rem at 85% 12%,
+      color-mix(in oklab, var(--muted-foreground) 14%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      36rem 20rem at 12% 88%,
+      color-mix(in oklab, var(--muted-foreground) 10%, transparent),
+      transparent 70%
+    );
+}
+
+.dark .hero-webgl-fallback {
+  background:
+    radial-gradient(
+      42rem 22rem at 85% 12%,
+      color-mix(in oklab, var(--muted-foreground) 22%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      36rem 20rem at 12% 88%,
+      color-mix(in oklab, var(--muted-foreground) 16%, transparent),
+      transparent 70%
+    );
+}
