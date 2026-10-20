@@ -26,13 +26,15 @@ function sortPosts(a: PostMeta, b: PostMeta) {
   return b.date.localeCompare(a.date)
 }
 
-export async function getAllPosts(): Promise<PostMeta[]> {
-  const files = await fs.readdir(postsDir)
+export async function getAllPosts(
+  directory: string = postsDir
+): Promise<PostMeta[]> {
+  const files = await fs.readdir(directory)
   const posts = await Promise.all(
     files
       .filter((file) => POST_EXTENSIONS.some((ext) => file.endsWith(ext)))
       .map(async (file) => {
-        const raw = await fs.readFile(path.join(postsDir, file), "utf8")
+        const raw = await fs.readFile(path.join(directory, file), "utf8")
         const { data } = matter(raw)
         const slug = file.replace(/\.mdx?$/, "")
         return {
@@ -46,18 +48,21 @@ export async function getAllPosts(): Promise<PostMeta[]> {
   )
   return posts
     // Nama file yang tidak bisa dibuka sebagai URL dilewati, supaya index
-    // tidak pernah menautkan artikel yangbakal 404.
+    // tidak pernah menautkan artikel yang bakal 404.
     .filter((post) => SAFE_SLUG.test(post.slug))
     .sort(sortPosts)
 }
 
-export async function getPost(slug: string): Promise<Post | null> {
+export async function getPost(
+  slug: string,
+  directory: string = postsDir
+): Promise<Post | null> {
   if (!SAFE_SLUG.test(slug)) return null
 
   for (const extension of POST_EXTENSIONS) {
     try {
       const raw = await fs.readFile(
-        path.join(postsDir, `${slug}${extension}`),
+        path.join(directory, `${slug}${extension}`),
         "utf8"
       )
       const { data, content } = matter(raw)

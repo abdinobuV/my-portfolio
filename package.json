@@ -4,7 +4,8 @@
   "type": "module",
   "private": true,
   "allowScripts": {
-    "unrs-resolver@1.12.2": true
+    "unrs-resolver@1.12.2": true,
+    "esbuild@0.28.2": true
   },
   "scripts": {
     "dev": "next dev",
@@ -12,7 +13,9 @@
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",
@@ -46,11 +49,12 @@
     "@types/react-dom": "^19",
     "@types/three": "^0.186.0",
     "eslint": "^9.39.5",
-    "eslint-config-next": "16.3.4",
+    "eslint-config-next": "16.3.8",
     "prettier": "^3.9.6",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "shadcn": "^4.21.0",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^3.2.7"
   }
 }
