@@ -38,7 +38,7 @@ Situs **portfolio + journal** one-page-first (home) dengan blog MDX, dibangun di
 | Skills | Tabs kategori + progress bar |
 | Timeline | Daftar kronologis; reveal pada **parent list** (bukan per-item) |
 | Dashboard | Counter animasi + chart (line/radar/bar) di wrapper Reveal |
-| Contact | Form RHF + zod, server action dummy, success + confetti |
+| Contact | Form RHF + zod (schema bersama di `lib/contact.ts`), server action, success + confetti |
 | Blog | Listing + SSG detail MDX (remark-gfm, rehype-slug/highlight) |
 | Tema | Light/dark (next-themes), hotkey `d` |
 | Transisi page | View Transition API (`page-content`, header/footer anchored) |
@@ -154,7 +154,7 @@ Situs **portfolio + journal** one-page-first (home) dengan blog MDX, dibangun di
 | Seam | What is locked down | Status |
 |------|---------------------|--------|
 | **Route smoke (highest)** | `/`, `/blog`, `/blog/[slug]` SSG, `404` return HTML and expected landmarks | Primary automated seam when tests are added |
-| **Contact form contract** | Invalid payload → Indonesian field errors; valid payload → `success: true` shape from server action | Best unit/integration seam without DOM animation |
+| **Contact form contract** | Invalid payload → Indonesian field errors; transport belum tersambung → `success: false` + pesan jujur (form tidak pernah melaporkan sukses palsu); transport tersambung → `success: true` | Best unit/integration seam without DOM animation |
 | **Build gates (existing)** | `npm run typecheck`, `npm run lint`, `npm run build` | Already in use — keep as pre-commit truth |
 
 ### Explicit non-goals for tests (now)
@@ -180,7 +180,7 @@ Situs **portfolio + journal** one-page-first (home) dengan blog MDX, dibangun di
 
 ## Out of Scope
 
-- Real backend/email delivery for contact (dummy server action only).
+- Real backend/email delivery for contact (transport `sendContactMessage` di `lib/contact.ts` masih menolak — form sengaja memberi tahu pengirim, bukan melapor sukses).
 - CMS, auth, analytics, i18n (single locale: `id`).
 - Multi-layer background parallax / scroll hijack (rejected — a11y, SEO, long-content issues).
 - Global pointer spotlight (pointer choice **A**: hero micro-tilt only).

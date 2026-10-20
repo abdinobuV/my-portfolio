@@ -11,21 +11,16 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Confetti } from "@/components/animations/confetti"
-import { submitContact, type ContactState } from "@/app/actions/contact"
+import { submitContact } from "@/app/actions/contact"
+import { contactSchema, type ContactState } from "@/lib/contact"
 
-const schema = z.object({
-  name: z.string().min(2, "Nama minimal 2 karakter"),
-  email: z.email("Masukkan email yang valid"),
-  message: z.string().min(10, "Pesan minimal 10 karakter"),
-})
-
-type FormValues = z.infer<typeof schema>
+type FormValues = z.infer<typeof contactSchema>
 
 function ContactForm() {
   const [state, setState] = React.useState<ContactState | null>(null)
 
   const form = useForm<FormValues>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(contactSchema),
     defaultValues: { name: "", email: "", message: "" },
   })
 
