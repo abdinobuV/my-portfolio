@@ -31,19 +31,20 @@ Situs **portfolio + journal** one-page-first (home) dengan blog MDX, dibangun di
 | Area | Requirement |
 |------|-------------|
 | Navigasi | Navbar sticky, shrink saat scroll, active section (IntersectionObserver di `/`), link Blog, mobile sheet, link CV (LinkedIn) |
-| Hero | Nama stagger, badge + stats **micro-tilt** (pointer fine), CTA magnetic, parallax ringan pada stats |
+| Hero | Nama stagger, badge + stats **micro-tilt** (pointer fine), CTA magnetic, backdrop WebGL constellation (amber, lazy) |
 | Section | Scroll-linked **enter** (opacity/y) + **exit dissolve** (opacity floor 0.2) kecuali footer (enter whileInView saja) |
 | Smooth scroll | Lenis: inertia wheel desktop, touch native mobile, `anchors: true`, mati/instan pada reduced-motion |
 | Projects | Grid filter, SpotlightCard, dialog detail + link eksternal |
-| Skills | Tabs kategori + progress bar |
+| Skills | **Peta keterampilan 3D** (6 bidang, 61 node, ukuran = level) + Tabs kategori dengan progress bar; keduanya berbagi state, daftar tetap jadi sumber kebenaran |
 | Timeline | Daftar kronologis; reveal pada **parent list** (bukan per-item) |
-| Dashboard | Counter animasi + chart (line/radar/bar) di wrapper Reveal |
-| Contact | Form RHF + zod (schema bersama di `lib/contact.ts`), server action, success + confetti |
-| Blog | Listing + SSG detail MDX (remark-gfm, rehype-slug/highlight) |
+| Dashboard | Counter animasi + chart (line/radar/bar) di wrapper Reveal; chart dimuat saat section didekati |
+| Contact | Form RHF + zod (schema bersama di `lib/contact.ts`), server action, success + confetti — dan **tidak pernah** melapor sukses bila transport belum tersambung |
+| Blog | Listing + SSG detail MDX (remark-gfm, rehype-slug/highlight), dukungan `.md` & `.mdx` |
 | Tema | Light/dark (next-themes), hotkey `d` |
 | Transisi page | View Transition API (`page-content`, header/footer anchored) |
-| A11y | Skip-link, reduced-motion respect, DOM identik saat reduce, label form |
-| Performa | Animasi hanya `opacity`/`transform`, motion value (tanpa re-render per frame), parity desktop↔mobile |
+| A11y | Skip-link, reduced-motion respect, DOM identik saat reduce, label form, hierarki heading benar di semua halaman |
+| Performa | Animasi hanya `opacity`/`transform`, motion value (tanpa re-render per frame), parity desktop↔mobile, three.js & recharts lazy |
+| SEO | Open Graph + Twitter card, `sitemap.xml` (otomatis ikut artikel baru), `robots.txt`, error boundary |
 
 ---
 
@@ -91,21 +92,35 @@ Situs **portfolio + journal** one-page-first (home) dengan blog MDX, dibangun di
 
 ### Stack
 
-- Next.js **16.3.4** (App Router, Turbopack), React **19.2.8**, TypeScript.
+- Next.js **16.3.8** (App Router, Turbopack), React **19.2.8**, TypeScript strict.
 - Tailwind CSS **v4**, shadcn/ui components (radix + `cn` from package `cn`).
 - **framer-motion 13** for entrance, scrub, springs; **Lenis 1.3** for smooth scroll.
+- **three.js 0.186 + @react-three/fiber 9** untuk grafik 3D (R3F, tanpa drei).
 - MDX via `next-mdx-remote` + gray-matter for posts.
 - Forms: react-hook-form + zod 4 (`z.email()`).
-- Charts: Recharts. Icons: lucide-react.
+- Charts: Recharts (dimuat terpisah). Icons: lucide-react + simple-icons.
 - Theming: next-themes.
+- Test: **Vitest 3** (unit test untuk `lib/`).
 
 ### Architecture
 
 - **Server-first pages** with client islands for interactive sections (hero, skills, projects, dashboard, contact form, navbar, animations).
 - **Root layout** owns ThemeProvider → LenisProvider → skip-link → Navbar → main → Footer.
 - **View Transition** wrapper lives in each `page.tsx` (not layout) per Next 16 constraints.
-- **Content layer**: `content/` modules (`profile`, `projects`, `skills`, `timeline`, `dashboard`, `posts/`) — UI never hardcodes identity data.
+- **Content layer**: `content/` modules (`profile`, `projects`, `skills`, `skill-graph`, `timeline`, `dashboard`, `technologies`, `posts/`) — UI never hardcodes identity data.
 - **Motion tokens**: single `motion.theme.ts` (transitions `ui`/`gentle`/`snap`, stagger, `travel.section`/`tilt`, `scrub.exitOpacity`).
+- **Pure logic lives in `lib/`** and has no React/three dependency, so it can be unit-tested directly: `skill-graph` (layout 3D), `contact` (schema + transport), `posts` (loader artikel), `random` (PRNG + Fibonacci sphere).
+
+### Grafik 3D
+
+- Dua tempat: **backdrop constellation** di hero, dan **peta keterampilan 3D** di section Keahlian.
+- Peta keterampilan: 6 hub bidang competenceArrange di bola Fibonacci, 61 skill mengelilingi hub-nya, **ukuran node proporsional level skill**, 14 garis penghubung antar bidang.
+- **Layout wajib deterministik** — `Math.random()` membuat konstelasi "reset" sendiri tiap viewport berubah. Dipakai `lib/random.ts` (mulberry32 + Fibonacci sphere) oleh hero maupun peta.
+- **Interaksi**: hover menyorot node terdekat (pemindaian koordinat layar, bukan raycast — toleransinya lebih longgar sehingga node kecil tetap gampang ditunjuk); klik memilih node yang **sedang disorot** supaya selalu sesuai dengan yang dilihat; drag untuk memutar (pointer capture).
+- **Scroll halaman tidak boleh diintervensi** — wheel dibiarkan untuk Lenis; zoom lewat tombol.
+- **Gerbang render**: hanya di ≥1024px + WebGL tersedia + `prefers-reduced-motion: no-preference`. Selain itu daftar biasa yang tampil.
+- **Tidak boleh ada informasi yang hanya ada di 3D** — Tabs Keahlian tetap dirender di DOM dengan state yang sama, jadi peta 3D adalah visualisasi, bukan pengganti data.
+- three.js di-import **dinamis** (`ssr: false`) supaya tidak masuk ke initial load.
 
 ### Scroll & motion system
 
@@ -118,7 +133,15 @@ Situs **portfolio + journal** one-page-first (home) dengan blog MDX, dibangun di
 - **Lists** (timeline, blog): single parent Reveal — one scroll tracker, not per-item.
 - **SectionHeading**: same Reveal choreography as bodies.
 - **MicroTilt**: badge strength 4, stats strength 8; only `(pointer: fine)`; off under reduced-motion.
-- Existing: Magnetic CTAs, SpotlightCard, Parallax on hero stats, Confetti on contact success.
+- Existing: Magnetic CTAs, SpotlightCard, Confetti on contact success.
+- Hero punya backdrop WebGL constellation (R3F) — lazy, `dpr` dibatasi, `powerPreference: low-power`, di-unmount saat off-screen, fallback CSS tanpa WebGL.
+
+### Token warna & kontras
+
+- Semua token warna ada di `app/globals.css` (`--chart-1..5`, `--ring`, `--border`, `--destructive`, `--muted-foreground`).
+- **Ramp chart harus dibalik antar tema**: di light mode seri pertama paling terang? Tidak — justru **paling gelap di light mode, paling terang di dark mode**. Ramp yang sama untuk keduanya membuat satu seri selalu mustahil di salah satu tema.
+- Semua rasio kontras diverifikasi terhadap WCAG AA (teks ≥ 4.5:1, grafis ≥ 3:1) di **kedua** tema, termasuk opasitas garis 3D.
+- Warna 3D (ramp amber) diselaraskan dengan ramp chart supaya hero dan peta keterampilan terasa satu keluarga.
 
 ### Interaction & a11y decisions
 
@@ -129,8 +152,10 @@ Situs **portfolio + journal** one-page-first (home) dengan blog MDX, dibangun di
 
 ### Quality gates
 
-- Scripts: `typecheck`, `lint`, `build` must pass before commit.
-- ESLint: Next + strict `react-hooks/set-state-in-effect` (no setState directly in effect bodies).
+- Scripts: `typecheck`, `lint`, `test`, `build` must pass before commit.
+- ESLint: Next + `react-hooks/set-state-in-effect` (no setState synchronously in effect bodies) — pola yang dipakai untuk deteksi WebGL & lebar viewport adalah `useSyncExternalStore`, bukan `setState` di effect.
+- Aturan React Compiler (`react-hooks/immutability`) dimatikan **khusus** di `components/three/` — three.js memang mutable, dan R3F yang memiliki siklus render-nya. Disertai penjelasan tertulis di dalam file.
+- CI: `.github/workflows/ci.yml` menjalankan `typecheck → lint → test → build` di setiap push & PR ke `main`.
 
 ### Git / delivery
 
@@ -153,15 +178,18 @@ Situs **portfolio + journal** one-page-first (home) dengan blog MDX, dibangun di
 
 | Seam | What is locked down | Status |
 |------|---------------------|--------|
-| **Route smoke (highest)** | `/`, `/blog`, `/blog/[slug]` SSG, `404` return HTML and expected landmarks | Primary automated seam when tests are added |
-| **Contact form contract** | Invalid payload → Indonesian field errors; transport belum tersambung → `success: false` + pesan jujur (form tidak pernah melaporkan sukses palsu); transport tersambung → `success: true` | Best unit/integration seam without DOM animation |
-| **Build gates (existing)** | `npm run typecheck`, `npm run lint`, `npm run build` | Already in use — keep as pre-commit truth |
+| **Layout grafik 3D** (`lib/skill-graph.ts`) | Determinisme (seed sama → posisi sama), tanpa NaN, radius naik seiring level, 14 edge cross lintas grup, slug unik, tautan ke skill yang tidak ada ditolak | ✅ 13 unit test |
+| **Loader artikel** (`lib/posts.ts`) | `.md` dan `.mdx` terbaca, slug berbahaya ditolak (path traversal), nama file invalid tidak masuk index, urutan tanggal terbaru | ✅ 9 unit test |
+| **Kontrak form kontak** (`lib/contact.ts`) | Pesan error zod dalam Bahasa Indonesia, batas panjang pesan, transport tidak pernah melapor sukses palsu | ✅ 6 unit test |
+| **Route smoke (tertinggi)** | `/`, `/blog`, `/blog/[slug]` SSG, `404` return HTML dan expected landmarks | Belum jadi unit test — masih manual QA + smoke test HTTP |
+| **Build gates (existing)** | `npm run typecheck`, `npm run lint`, `npm run test`, `npm run build` | ✅ dipakai — jalankan sebelum commit |
 
 ### Explicit non-goals for tests (now)
 
 - Per-frame scroll progress / opacity mid-values (brittle; covered by design + manual QA).
 - Snapshotting motion style attributes (hydration + reduce-motion variants).
 - Visual regression (no harness yet).
+- Render 3D (butuh WebGL; tidak ada harness browser di repo — verifikasi dilakukan manual via Chrome headless + CDP).
 
 ### Manual QA checklist (release)
 
@@ -173,8 +201,9 @@ Situs **portfolio + journal** one-page-first (home) dengan blog MDX, dibangun di
 
 ### Prior art
 
-- No unit test runner in `package.json` today; prior art is the **build pipeline** + session QA checklists used during animation work.
-- When tests land: prefer testing the **contact action** and **route modules** first (stable seams), not `components/animations/*`.
+- Test runner: **Vitest 3** (`vitest.config.ts`, alias `@/` sudah dikonfigurasi). Semua test ada di `lib/*.test.ts` — logika murni, tanpa DOM.
+- Berikutnya kalau mau menambah: **route smoke test** (butuh environment jsdom atau E2E), lalu gate di CI.
+- Jangan menguji `components/animations/*` — rapuh dan tidak nilai bisnisnya sebanding biayanya.
 
 ---
 
@@ -198,4 +227,5 @@ Situs **portfolio + journal** one-page-first (home) dengan blog MDX, dibangun di
 - **Footer** intentionally uses `whileInView` enter (`exit={false}`): short elements at document bottom never reach scrub enter offset `start 40%`, which previously left opacity stuck near the floor.
 - **Delay props** on non-stagger Reveal are inert under scrub mode (historical API); only stagger `delayChildren` applies.
 - **Issue tracker**: run `/setup-matt-pocock-skills` if you want `to-spec` / `to-tickets` to publish to GitHub Issues (`ready-for-agent`) instead of files like this PRD.
-- Git state at writing: features through smooth-scroll/reveal/tilt on `main` (`e3f60f9`); `.opencode/` skill install may be untracked until committed.
+- **Initial JS diukur**: ~428 KB gzip untuk halaman `/`. recharts dimuat terpisah (hanya saat section Dashboard didekati), three.js dimuat terpisah (hanya saat WebGLNeeded). FCP lokal ~380 ms.
+- **Domain situs** tidak dipaksa di repo — `lib/site.ts` memakai `NEXT_PUBLIC_SITE_URL`, lalu variabel Vercel, lalu localhost. Isi `NEXT_PUBLIC_SITE_URL` saat deploy supaya link Open Graph dan sitemap menunjuk ke domain yang benar.
