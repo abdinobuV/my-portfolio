@@ -10,6 +10,8 @@ import { Footer } from "@/components/layout/footer"
 import { StickyCta } from "@/components/layout/sticky-cta"
 import { BackToTop } from "@/components/layout/back-to-top"
 import { TooltipProvider } from "@/components/ui/tooltip"
+import { profile } from "@/content/profile"
+import { siteUrl } from "@/lib/site"
 import { cn } from "cn"
 
 const playfairDisplayHeading = Playfair_Display({
@@ -27,15 +29,15 @@ const fontMono = Geist_Mono({
   variable: "--font-mono",
 })
 
+const description = `Portfolio ${profile.name}, ${profile.role.toLowerCase()} di ${profile.institution}. Minat pada computer networking, Linux, educational technology, dan pengembangan web.`
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
-    // TODO: portfolio-data.md — konfirmasi nama lengkap
-    default:
-      "Abdi Raihan Wibowo — Mahasiswa Pendidikan Teknologi Informatika dan Komputer",
-    template: "%s — Abdi Raihan Wibowo",
+    default: `${profile.name} — ${profile.role}`,
+    template: `%s — ${profile.name}`,
   },
-  description:
-    "Portfolio Abdi Raihan Wibowo, mahasiswa Pendidikan Teknologi Informatika dan Komputer di Universitas Negeri Medan. Minat pada computer networking, Linux, educational technology, dan pengembangan web.",
+  description,
   keywords: [
     "portfolio",
     "computer networking",
@@ -45,6 +47,21 @@ export const metadata: Metadata = {
     "educational technology",
     "web development",
   ],
+  authors: [{ name: profile.name }],
+  creator: profile.name,
+  openGraph: {
+    type: "website",
+    locale: "id_ID",
+    url: siteUrl,
+    siteName: profile.name,
+    title: `${profile.name} — ${profile.role}`,
+    description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${profile.name} — ${profile.role}`,
+    description,
+  },
 }
 
 export default function RootLayout({
