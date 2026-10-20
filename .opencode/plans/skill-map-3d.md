@@ -1,7 +1,7 @@
 # Rencana — Peta Keterampilan 3D
 
-Status: disetujui, siap eksekusi.
-Fokus: 3D dulu. Antrean non-3D (README, CI, vitest, SEO, dead code, lazy recharts) ditunda.
+Status: **selesai** — semua commit sudah masuk di `main`.
+Fokus: 3D dulu. Antrean non-3D (README, CI, vitest, SEO, dead code) ditunda.
 
 ## Keputusan yang sudah dikunci
 
@@ -61,6 +61,24 @@ Slug wajib unik per grup — diverifikasi skrip build.
 | Drag | Orbit (rotasi X/Y) |
 | Scroll | **Tidak diintervensi** — scroll halaman & Lenis tetap normal |
 | Tombol `+` / `−` | Zoom kamera (`aria-label` Indonesia) |
+
+## Hasil & temuan saat pengerjaan
+
+| Temuan | decisions |
+|---|---|
+| Raycast titik R3F punya toleransi jauh lebih ketat daripada hover berbasis koordinat layar → klik bisa meleset dari node yang terlihat disorot. | Klik diproses dari node yang **sedang disorot**, bukan raycast terpisah. Klik selalu sesuai dengan yang dilihat. |
+| `state.pointer` R3F tetap berisi posisi terakhir setelah kursor keluar canvas → node terus dianggap tersorot. | Ditambah penanda `pointerInside`; hover hanya dihitung saat kursor benar-benar di atas canvas. |
+| `useSyncExternalStore` (bukan `setState` di dalam effect) untuk deteksi WebGL & lebar viewport — pola yang sama dipakai `theme-toggle.tsx`. | Menyamakan dengan `theme-toggle.tsx`, sekaligus menghindari hydration mismatch. |
+| Aturan React Compiler (`react-hooks/immutability`) menolak mutasi objek three.js. | Di-*disable* khusus di file scene, dengan alasan tertulis: three.js memang mutable, dan R3F yang memiliki siklus render-nya. |
+| `--virtual-time-budget` pada Chrome headless menyelesaikan virtual time sebelum request jaringan selesai → screenshot tampak kosong padahal canvas merender. | Verifikasi memakai driver CDP (WebSocket bawaan Node 22+) dengan waktu nyata, bukan `--screenshot`. |
+| "Ghost" pada heading Playfair ternyata artefak downscaling PNG, bukan bug. | Dikonfirmasi: 1 elemen di DOM, tanpa text-shadow/filter, font termuat; pada zoom 5× heading bersih sempurna. |
+
+## Verifikasi
+
+- `npm run typecheck`, `npm run lint`, `npm run build` — bersih.
+- 12 pemeriksaan layout: determinisme (3 build identik), tanpa NaN, radius naik seiring level, 75 edge resolve, slug unik, 14 edge cross lintas grup, jarak hub aman.
+- Smoke test browser (Chrome headless + CDP): canvas 1022×478 ter-render, 6 label hub dengan posisi 3D live, hover menghasilkan tooltip, klik mengganti tab (Jaringan → Devices), console bersih.
+- Bundle: three.js tetap lazy (chunk terpisah, tidak di initial load); initial load naik hanya ~12 KB.
 
 ## Aksesibilitas
 
