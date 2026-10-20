@@ -5,15 +5,18 @@ import rehypeHighlight from "rehype-highlight"
 
 import { cn } from "cn"
 
+// Level heading digeser satu tingkat: judul artikel sudah memakai <h1> di
+// halaman, jadi isi artikel dimulai dari <h2>. Penulisan `#` di markdown
+// tidak lagi menghasilkan <h1> kedua di halaman yang sama.
 const components = {
   h1: (props: React.ComponentProps<"h1">) => (
-    <h1 className="font-heading mt-10 mb-4 text-2xl font-semibold tracking-wide md:text-3xl" {...props} />
+    <h2 className="font-heading mt-10 mb-4 text-2xl font-semibold tracking-wide md:text-3xl" {...props} />
   ),
   h2: (props: React.ComponentProps<"h2">) => (
-    <h2 className="font-heading mt-10 mb-3 text-xl font-semibold tracking-wide md:text-2xl" {...props} />
+    <h3 className="font-heading mt-10 mb-3 text-xl font-semibold tracking-wide md:text-2xl" {...props} />
   ),
   h3: (props: React.ComponentProps<"h3">) => (
-    <h3 className="font-heading mt-8 mb-2 text-lg font-semibold tracking-wide" {...props} />
+    <h4 className="font-heading mt-8 mb-2 text-lg font-semibold tracking-wide" {...props} />
   ),
   p: (props: React.ComponentProps<"p">) => (
     <p className="my-4 text-sm leading-relaxed text-foreground md:text-base" {...props} />

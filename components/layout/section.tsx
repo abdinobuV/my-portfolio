@@ -29,11 +29,14 @@ function SectionHeading({
   title,
   description,
   className,
+  headingLevel: Heading = "h2",
 }: {
   index?: string
   title: string
   description?: string
   className?: string
+  /** Level heading untuk judul section — "h1" dipakai di halaman yang punya satu judul utama. */
+  headingLevel?: "h1" | "h2" | "h3"
 }) {
   return (
     <Reveal className={cn("mb-10 md:mb-14", className)}>
@@ -43,9 +46,9 @@ function SectionHeading({
             {index}
           </span>
         ) : null}
-        <h2 className="font-heading text-2xl font-semibold tracking-wide uppercase md:text-3xl">
+        <Heading className="font-heading text-2xl font-semibold tracking-wide uppercase md:text-3xl">
           {title}
-        </h2>
+        </Heading>
       </div>
       {description ? (
         <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">

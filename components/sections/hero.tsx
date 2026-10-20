@@ -91,7 +91,7 @@ function Hero() {
           </div>
         </motion.div>
 
-        <motion.h2
+        <motion.p
           {...rise(0.15)}
           className="mt-6 max-w-3xl text-[1.7rem] leading-tight font-normal tracking-tight text-balance sm:text-[2.05rem] md:text-[2.15rem]"
         >
@@ -99,7 +99,7 @@ function Hero() {
           <span className="text-[0.95em] font-light text-muted-foreground">
             — {profile.focus}
           </span>
-        </motion.h2>
+        </motion.p>
 
         <motion.p
           {...rise(0.25)}

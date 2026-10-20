@@ -40,6 +40,7 @@ export default async function BlogIndexPage() {
         <SectionHeading
           index="Blog"
           title="Journal Belajar"
+          headingLevel="h1"
           description="Tulisan singkat tentang apa yang saya pelajari — biar ilmu tidak hilang begitu saja."
         />
 
@@ -64,9 +65,9 @@ export default async function BlogIndexPage() {
                       </Badge>
                     ))}
                   </div>
-                  <h2 className="font-heading mt-3 text-xl font-semibold tracking-wide transition-colors group-hover:text-muted-foreground md:text-2xl">
+                  <h3 className="font-heading mt-3 text-xl font-semibold tracking-wide transition-colors group-hover:text-muted-foreground md:text-2xl">
                     {post.title}
-                  </h2>
+                  </h3>
                   <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
                     {post.excerpt}
                   </p>
