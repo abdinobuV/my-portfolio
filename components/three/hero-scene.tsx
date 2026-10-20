@@ -4,6 +4,8 @@ import * as React from "react"
 import * as THREE from "three"
 import { useFrame, useThree } from "@react-three/fiber"
 
+import { mulberry32 } from "@/lib/random"
+
 type ConstellationProps = {
   pointColor: string
   lineColor: string
@@ -11,11 +13,15 @@ type ConstellationProps = {
 }
 
 function buildConstellation(count: number, spread: [number, number, number]) {
+  // PRNG ber-seed supaya komposisi tetap sama tiap muat. Dengan Math.random,
+  // konstelasi berubah-ubah setiap kali viewport berubah — untuk hero itu
+  // terasa seperti "reset", bukan animasi.
+  const rand = mulberry32(20260101)
   const positions = new Float32Array(count * 3)
   for (let i = 0; i < count; i++) {
-    positions[i * 3] = (Math.random() - 0.5) * spread[0]
-    positions[i * 3 + 1] = (Math.random() - 0.5) * spread[1]
-    positions[i * 3 + 2] = (Math.random() - 0.5) * spread[2]
+    positions[i * 3] = (rand() - 0.5) * spread[0]
+    positions[i * 3 + 1] = (rand() - 0.5) * spread[1]
+    positions[i * 3 + 2] = (rand() - 0.5) * spread[2]
   }
 
   const threshold = 2.1

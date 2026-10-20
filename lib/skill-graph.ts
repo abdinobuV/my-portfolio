@@ -1,4 +1,5 @@
 import type { SkillGroup } from "@/content/skills"
+import { fibonacciSphere, mulberry32 } from "@/lib/random"
 
 export type SkillNodeKind = "hub" | "skill"
 
@@ -47,20 +48,10 @@ export type SkillGraphOptions = {
   maxNodeRadius?: number
 }
 
-const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5))
-
-/** PRNG mulberry32 — kecil, cepat, dan deterministik untuk seed yang sama. */
-function mulberry32(seed: number) {
-  let a = seed >>> 0
-  return () => {
-    a = (a + 0x6d2b79f5) >>> 0
-    let t = Math.imul(a ^ (a >>> 15), 1 | a)
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296
-  }
-}
-
-/** Slug stabil dari nama skill: "Konfigurasi router & switch" -> "konfigurasi-router-switch". */
+/**
+ * Slug stabil dari nama skill:
+ * "Konfigurasi router & switch" -> "konfigurasi-router-switch".
+ */
 export function slugify(name: string) {
   return name
     .toLowerCase()
@@ -70,21 +61,6 @@ export function slugify(name: string) {
 
 export function skillNodeId(groupId: string, name: string) {
   return `${groupId}/${slugify(name)}`
-}
-
-/**
- * Sebar n titik merata di bola — Golden Spiral, tanpa random sama sekali.
- * Dipakai untuk hub dan untuk skill di dalam satu grup.
- */
-function fibonacciSphere(count: number): [number, number, number][] {
-  const points: [number, number, number][] = []
-  for (let i = 0; i < count; i++) {
-    const y = count === 1 ? 0 : 1 - (i / (count - 1)) * 2
-    const r = Math.sqrt(Math.max(0, 1 - y * y))
-    const theta = GOLDEN_ANGLE * i
-    points.push([Math.cos(theta) * r, y, Math.sin(theta) * r])
-  }
-  return points
 }
 
 /**

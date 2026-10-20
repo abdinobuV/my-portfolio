@@ -49,8 +49,10 @@ function HeroCanvas({ className }: { className?: string }) {
   }, [])
 
   const isDark = resolvedTheme === "dark"
-  const pointColor = isDark ? "#a8a29e" : "#78716c"
-  const lineColor = isDark ? "#a8a29e" : "#78716c"
+  // Palet amber yang sama dengan ramp chart, supaya constellation di hero
+  // dan peta keterampilan di section Keilikian terasa satu keluarga.
+  const pointColor = isDark ? "#efae7c" : "#b26417"
+  const lineColor = isDark ? "#da915f" : "#b26417"
 
   if (reduceMotion || !webglOk) {
     return (
