@@ -8,7 +8,7 @@ export const profile = {
     {
       type: "text",
       value:
-        "Saya mahasiswa Pendidikan Teknologi Informatika dan Komputer di Universitas Negeri Medan, dengan latar belakang Teknik Komputer dan Jaringan dari SMK serta minat utama pada",
+        "Saya mahasiswa Pendidikan Teknologi Informatika dan Komputer di Universitas Negeri Medan, dengan latar belakang Teknik Komputer dan Jaringan dari SMKS Teladan Medan serta minat utama pada",
     },
     { type: "chip", value: "Computer Networking" },
     { type: "chip", value: "Linux" },
@@ -19,7 +19,7 @@ export const profile = {
     },
   ],
   /** Profile — portfolio-data.md */
-  bio: "Saya adalah mahasiswa Pendidikan Teknologi Informatika dan Komputer di Universitas Negeri Medan. Saya memiliki latar belakang Teknik Komputer dan Jaringan dari SMK, dengan minat utama pada computer networking dan Linux.",
+  bio: "Saya adalah mahasiswa Pendidikan Teknologi Informatika dan Komputer di Universitas Negeri Medan. Saya memiliki latar belakang Teknik Komputer dan Jaringan dari SMKS Teladan Medan, dengan minat utama pada computer networking dan Linux.",
   /** Profile paragraf 2 — portfolio-data.md */
   bioSecondary:
     "Saya senang mempelajari cara kerja jaringan komputer, melakukan konfigurasi sistem, serta mengembangkan website dan aplikasi sederhana. Saat ini, saya terus mengembangkan kemampuan teknis dan komunikasi melalui berbagai latihan, proyek, dan kegiatan akademik.",
@@ -92,6 +92,6 @@ export const profile = {
       icon: "email",
     },
   ],
-  cvUrl: "/cv.pdf",
+  cvUrl: "https://www.linkedin.com/in/abdi-raihan-wibowo-5a5656437/",
   year: new Date().getFullYear(),
 } as const

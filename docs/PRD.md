@@ -30,7 +30,7 @@ Situs **portfolio + journal** one-page-first (home) dengan blog MDX, dibangun di
 
 | Area | Requirement |
 |------|-------------|
-| Navigasi | Navbar sticky, shrink saat scroll, active section (IntersectionObserver di `/`), link Blog, mobile sheet, Unduh CV |
+| Navigasi | Navbar sticky, shrink saat scroll, active section (IntersectionObserver di `/`), link Blog, mobile sheet, link CV (LinkedIn) |
 | Hero | Nama stagger, badge + stats **micro-tilt** (pointer fine), CTA magnetic, parallax ringan pada stats |
 | Section | Scroll-linked **enter** (opacity/y) + **exit dissolve** (opacity floor 0.2) kecuali footer (enter whileInView saja) |
 | Smooth scroll | Lenis: inertia wheel desktop, touch native mobile, `anchors: true`, mati/instan pada reduced-motion |
@@ -193,7 +193,7 @@ Situs **portfolio + journal** one-page-first (home) dengan blog MDX, dibangun di
 
 ## Further Notes
 
-- **Dummy data** lives under `content/`; replace `profile` first when going live (email, socials, real CV file at `public/cv.pdf`).
+- **Dummy data** lives under `content/`; replace `profile` first when going live (email, socials). `profile.cvUrl` saat ini menunjuk ke profil LinkedIn — ganti dengan URL PDF bila file CV tersedia.
 - **Exit dissolve floor is 0.2**, not 0 — keeps partially off-screen text perceivable and avoids “vanish” on fast scroll/keyboard.
 - **Footer** intentionally uses `whileInView` enter (`exit={false}`): short elements at document bottom never reach scrub enter offset `start 40%`, which previously left opacity stuck near the floor.
 - **Delay props** on non-stagger Reveal are inert under scrub mode (historical API); only stagger `delayChildren` applies.

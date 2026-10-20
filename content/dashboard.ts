@@ -12,7 +12,7 @@ export const learningHours = [
 
 export const skillRadar = [
   { skill: "HTML/CSS", nilai: 92 },
-  { skill: "TypeScript", nilai: 84 },
+  { skill: "TypeScript", nilai: 75 },
   { skill: "React", nilai: 86 },
   { skill: "Next.js", nilai: 80 },
   { skill: "A11y", nilai: 72 },

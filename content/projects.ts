@@ -27,8 +27,7 @@ export const projects: Project[] = [
     tags: ["React", "Next.js", "TypeScript", "Tailwind CSS"],
     year: "2026",
     status: "Live",
-    // TODO: portfolio-data.md — URL website portfolio (masih placeholder)
-    links: [{ label: "Live", href: "#" }],
+    links: [],
     accent: "oklch(0.75 0.12 75)",
   },
   {

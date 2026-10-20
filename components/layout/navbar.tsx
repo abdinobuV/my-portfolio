@@ -137,8 +137,8 @@ function Navbar() {
           <ThemeToggle className="min-h-11 min-w-11" />
 
           <Button asChild size="sm" className="hidden md:inline-flex">
-            <a href={profile.cvUrl} download>
-              Unduh CV
+            <a href={profile.cvUrl} target="_blank" rel="noreferrer">
+              Lihat CV
             </a>
           </Button>
 
@@ -170,8 +170,8 @@ function Navbar() {
                 </nav>
                 <Separator className="my-6" />
                 <Button asChild size="sm" className="w-full">
-                  <a href={profile.cvUrl} download>
-                    Unduh CV
+                  <a href={profile.cvUrl} target="_blank" rel="noreferrer">
+                    Lihat CV
                   </a>
                 </Button>
               </div>

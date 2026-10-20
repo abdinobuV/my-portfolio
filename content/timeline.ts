@@ -17,12 +17,11 @@ export const timeline: TimelineItem[] = [
     kind: "pendidikan",
   },
   {
-    // TODO: portfolio-data.md — Nama SMK (masih placeholder)
     period: "2022 - 2025",
     title: "Teknik Komputer dan Jaringan",
-    org: "—",
+    org: "SMKS Teladan Medan",
     description:
-      "Program keahlian Teknik Komputer dan Jaringan di Sekolah Menengah Kejuruan — latar belakang dasar jaringan komputer, Linux, dan konfigurasi sistem.",
+      "Program keahlian Teknik Komputer dan Jaringan di SMKS Teladan Medan — latar belakang dasar jaringan komputer, Linux, dan konfigurasi sistem.",
     kind: "pendidikan",
   },
 ]

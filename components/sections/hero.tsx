@@ -128,8 +128,8 @@ function Hero() {
         <motion.div {...rise(0.35)} className="mt-8">
           <Magnetic strength={8}>
             <Button asChild size="lg">
-              <a href={profile.cvUrl} download>
-                Unduh CV
+              <a href={profile.cvUrl} target="_blank" rel="noreferrer">
+                Lihat CV di LinkedIn
                 <ArrowRightIcon />
               </a>
             </Button>

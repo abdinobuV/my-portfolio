@@ -37,6 +37,8 @@ const radarConfig = {
   nilai: { label: "Nilai", color: "var(--chart-2)" },
 } satisfies ChartConfig
 
+const totalHours = learningHours.reduce((total, month) => total + month.jam, 0)
+
 function Dashboard() {
   return (
     <Section id="dashboard">
@@ -156,10 +158,10 @@ function Dashboard() {
             </CardHeader>
             <CardContent>
               <p className="font-heading text-4xl font-semibold">
-                <Counter value={860} suffix="+" />
+                <Counter value={totalHours} suffix="+" />
               </p>
               <p className="mt-1 text-sm text-muted-foreground">
-                jam belajar sejak 2024
+                jam belajar, {learningHours[0].month}–{learningHours.at(-1)?.month}
               </p>
               <div className="mt-6 h-24">
                 <ChartContainer config={hoursConfig} className="h-full w-full">

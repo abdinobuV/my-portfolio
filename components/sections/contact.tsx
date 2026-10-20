@@ -50,8 +50,8 @@ function Contact() {
           </div>
 
           <Button asChild variant="outline" size="lg" className="w-full">
-            <a href={profile.cvUrl} download>
-              Unduh CV (PDF)
+            <a href={profile.cvUrl} target="_blank" rel="noreferrer">
+              Lihat CV di LinkedIn
               <FileTextIcon />
             </a>
           </Button>
