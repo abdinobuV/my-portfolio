@@ -96,9 +96,9 @@ function PixelTransition({
             src={photo.src}
             alt={i === index ? photo.alt : ""}
             aria-hidden={i !== index}
-            width={512}
-            height={512}
-            unoptimized
+            width={640}
+            height={640}
+            sizes="(min-width: 768px) 160px, (min-width: 640px) 144px, 128px"
             className={cn(
               "absolute inset-0 h-full w-full object-cover transition-opacity",
               i === index ? "opacity-100" : "opacity-0"

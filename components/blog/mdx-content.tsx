@@ -58,9 +58,19 @@ const components = {
       <table className="w-full border-collapse text-sm" {...props} />
     </div>
   ),
-  img: ({ alt, ...props }: React.ComponentProps<"img">) => (
+  img: ({ alt, width, height, ...props }: React.ComponentProps<"img">) => (
+    // Penulis boleh mengisi width/height lewat markdown; bila tidak ada,
+    // rasio 16:9 dipakai sebagai fallback agar tidak ada layout shift.
     // eslint-disable-next-line @next/next/no-img-element
-    <img alt={alt ?? ""} className="my-6 h-auto max-w-full" {...props} />
+    <img
+      alt={alt ?? ""}
+      width={width ?? 960}
+      height={height ?? 540}
+      loading="lazy"
+      decoding="async"
+      className="my-6 h-auto max-w-full"
+      {...props}
+    />
   ),
 }
 
