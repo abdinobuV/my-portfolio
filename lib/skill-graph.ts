@@ -136,7 +136,7 @@ export function buildSkillGraph(
 ): SkillGraph {
   const {
     seed = 20260101,
-    hubRadius = 2.4,
+    hubRadius = 2.1,
     clusterRadius = 0.55,
     minNodeRadius = 0.05,
     maxNodeRadius = 0.09,

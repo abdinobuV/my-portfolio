@@ -12,6 +12,7 @@ import {
 
 import { Section, SectionHeading } from "@/components/layout/section"
 import { Reveal } from "@/components/animations/reveal"
+import { SkillsMap } from "@/components/sections/skills-map"
 import {
   Tabs,
   TabsContent,
@@ -53,6 +54,13 @@ function Skills() {
         title="Keahlian"
         description={`${skillGroups.length} bidang · ${totalBars} keterampilan dalam satu panel tab — angka adalah perkiraan jujur, bukan klaim mutlak.`}
       />
+
+      <Reveal>
+        <SkillsMap
+          activeGroup={active}
+          onActiveGroupChange={setActive}
+        />
+      </Reveal>
 
       <Reveal>
         <Tabs value={active} onValueChange={setActive}>
