@@ -16,6 +16,12 @@ export type Post = PostMeta & {
 
 const postsDir = path.join(process.cwd(), "content", "posts")
 
+/** Ekstensi yang dibaca. getAllPosts dan getPost harus memakai daftar yang sama. */
+const POST_EXTENSIONS = [".md", ".mdx"]
+
+/** Slug sah: huruf, angka, tanda hubung. Menjaga path tetap di dalam postsDir. */
+const SAFE_SLUG = /^[a-z0-9][a-z0-9-]*$/i
+
 function sortPosts(a: PostMeta, b: PostMeta) {
   return b.date.localeCompare(a.date)
 }
@@ -24,12 +30,13 @@ export async function getAllPosts(): Promise<PostMeta[]> {
   const files = await fs.readdir(postsDir)
   const posts = await Promise.all(
     files
-      .filter((file) => file.endsWith(".md") || file.endsWith(".mdx"))
+      .filter((file) => POST_EXTENSIONS.some((ext) => file.endsWith(ext)))
       .map(async (file) => {
         const raw = await fs.readFile(path.join(postsDir, file), "utf8")
         const { data } = matter(raw)
+        const slug = file.replace(/\.mdx?$/, "")
         return {
-          slug: file.replace(/\.mdx?$/, ""),
+          slug,
           title: String(data.title ?? file),
           date: String(data.date ?? ""),
           excerpt: String(data.excerpt ?? ""),
@@ -37,22 +44,35 @@ export async function getAllPosts(): Promise<PostMeta[]> {
         } satisfies PostMeta
       })
   )
-  return posts.sort(sortPosts)
+  return posts
+    // Nama file yang tidak bisa dibuka sebagai URL dilewati, supaya index
+    // tidak pernah menautkan artikel yangbakal 404.
+    .filter((post) => SAFE_SLUG.test(post.slug))
+    .sort(sortPosts)
 }
 
 export async function getPost(slug: string): Promise<Post | null> {
-  try {
-    const raw = await fs.readFile(path.join(postsDir, `${slug}.md`), "utf8")
-    const { data, content } = matter(raw)
-    return {
-      slug,
-      title: String(data.title ?? slug),
-      date: String(data.date ?? ""),
-      excerpt: String(data.excerpt ?? ""),
-      tags: Array.isArray(data.tags) ? data.tags.map(String) : [],
-      content,
+  if (!SAFE_SLUG.test(slug)) return null
+
+  for (const extension of POST_EXTENSIONS) {
+    try {
+      const raw = await fs.readFile(
+        path.join(postsDir, `${slug}${extension}`),
+        "utf8"
+      )
+      const { data, content } = matter(raw)
+      return {
+        slug,
+        title: String(data.title ?? slug),
+        date: String(data.date ?? ""),
+        excerpt: String(data.excerpt ?? ""),
+        tags: Array.isArray(data.tags) ? data.tags.map(String) : [],
+        content,
+      }
+    } catch {
+      // Lanjut ke ekstensi berikutnya (.md -> .mdx).
     }
-  } catch {
-    return null
   }
+
+  return null
 }
