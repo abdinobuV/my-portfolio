@@ -95,9 +95,15 @@ function Dashboard() {
                     tickLine={false}
                     axisLine={false}
                     tickMargin={8}
-                    tick={{ fontSize: 11 }}
+                    tick={{ fontSize: 11, fill: "var(--muted-foreground)" }}
                   />
-                  <YAxis tickLine={false} axisLine={false} tickMargin={8} width={36} />
+                  <YAxis
+                    tickLine={false}
+                    axisLine={false}
+                    tickMargin={8}
+                    width={36}
+                    tick={{ fontSize: 11, fill: "var(--muted-foreground)" }}
+                  />
                   <ChartTooltip content={<ChartTooltipContent />} />
                   <Line
                     dataKey="jam"
@@ -121,7 +127,7 @@ function Dashboard() {
             <CardContent className="h-64">
               <ChartContainer config={radarConfig} className="h-full w-full">
                 <RadarChart data={skillRadar} outerRadius="70%">
-                  <PolarGrid stroke="var(--border)" />
+                  <PolarGrid stroke="var(--muted-foreground)" opacity={0.18} />
                   <PolarAngleAxis
                     dataKey="skill"
                     tick={{ fontSize: 11, fill: "var(--muted-foreground)" }}
@@ -129,7 +135,7 @@ function Dashboard() {
                   <PolarRadiusAxis
                     angle={30}
                     domain={[0, 100]}
-                    tick={{ fontSize: 10 }}
+                    tick={{ fontSize: 10, fill: "var(--muted-foreground)" }}
                   />
                   <Radar
                     dataKey="nilai"
