@@ -7,6 +7,7 @@ import { Skills } from "@/components/sections/skills"
 import { Projects } from "@/components/sections/projects"
 import { JourneyHorizontal } from "@/components/sections/journey-horizontal"
 import { Dashboard } from "@/components/sections/dashboard"
+import { BlogPreview } from "@/components/sections/blog-preview"
 import { Contact } from "@/components/sections/contact"
 import { technologies } from "@/content/technologies"
 
@@ -34,6 +35,7 @@ export default function Page() {
         <Projects />
         <JourneyHorizontal />
         <Dashboard />
+        <BlogPreview />
         <Contact />
       </>
     </ViewTransition>

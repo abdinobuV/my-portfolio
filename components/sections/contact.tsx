@@ -10,7 +10,7 @@ function Contact() {
   return (
     <Section id="kontak">
       <SectionHeading
-        index="06"
+        index="07"
         title="Kontak"
         description="Punya ide kolaborasi, lowongan, atau sekadar ingin menyapa? Kirim pesan."
       />

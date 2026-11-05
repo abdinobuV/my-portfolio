@@ -69,6 +69,7 @@ export const profile = {
     "Tailwind CSS",
     "MySQL",
     "Git",
+    "Cisco",
   ],
   /** Foto profil hero (klik lingkaran untuk ganti). */
   photos: [
@@ -93,5 +94,5 @@ export const profile = {
     },
   ],
   cvUrl: "https://www.linkedin.com/in/abdi-raihan-wibowo-5a5656437/",
-  year: new Date().getFullYear(),
+  year: 2026,
 } as const

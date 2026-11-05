@@ -99,18 +99,32 @@ export type SkillsMapProps = {
   activeGroup: string | null
   /** Callback saat grup berubah lewat peta 3D. */
   onActiveGroupChange: (groupId: string) => void
+  /** ID node skill yang sedang dipilih (`${groupId}/${slug}`). */
+  selectedSkillId?: string | null
+  /** Callback saat node skill dipilih di peta 3D. */
+  onSelectedSkillChange?: (skillId: string | null) => void
 }
 
-function SkillsMap({ activeGroup, onActiveGroupChange }: SkillsMapProps) {
+function SkillsMap({
+  activeGroup,
+  onActiveGroupChange,
+  selectedSkillId,
+  onSelectedSkillChange,
+}: SkillsMapProps) {
   const reduceMotion = useReducedMotion()
   const { resolvedTheme } = useTheme()
   const stageRef = React.useRef<HTMLDivElement>(null)
   const labelRefs = React.useRef<(HTMLElement | null)[]>([])
 
   const [hoveredId, setHoveredId] = React.useState<string | null>(null)
-  const [selectedId, setSelectedId] = React.useState<string | null>(null)
+  const [internalSelectedId, setInternalSelectedId] = React.useState<
+    string | null
+  >(null)
   const [cameraDistance, setCameraDistance] = React.useState(9)
   const [inView, setInView] = React.useState(false)
+
+  const selectedId =
+    selectedSkillId !== undefined ? selectedSkillId : internalSelectedId
 
   // Dukungan WebGL hanya diketahui di browser. useSyncExternalStore menjaga
   // render pertama tetap identik dengan hasil server, lalu naik ke nilai
@@ -164,14 +178,15 @@ function SkillsMap({ activeGroup, onActiveGroupChange }: SkillsMapProps) {
 
   const handleSelect = React.useCallback(
     (id: string | null) => {
-      setSelectedId(id)
+      setInternalSelectedId(id)
+      onSelectedSkillChange?.(id)
       if (!id) return
       const node = nodeById.get(id)
       if (node && node.groupId !== activeGroup) {
         onActiveGroupChange(node.groupId)
       }
     },
-    [activeGroup, nodeById, onActiveGroupChange]
+    [activeGroup, nodeById, onActiveGroupChange, onSelectedSkillChange]
   )
 
   const hoveredNode = hoveredId ? nodeById.get(hoveredId) : undefined

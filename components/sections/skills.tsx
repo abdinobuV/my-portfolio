@@ -22,6 +22,7 @@ import {
 import { Progress } from "@/components/ui/progress"
 import { skillGroups, type SkillGroupIcon } from "@/content/skills"
 import { profile } from "@/content/profile"
+import { skillNodeId } from "@/lib/skill-graph"
 import { cn } from "cn"
 
 const groupIcons: Record<SkillGroupIcon, typeof NetworkIcon> = {
@@ -42,10 +43,17 @@ function average(levels: { level: number }[]) {
 
 function Skills() {
   const [active, setActive] = React.useState(skillGroups[0].id)
+  const [selectedSkillId, setSelectedSkillId] = React.useState<string | null>(
+    null
+  )
   const totalBars = skillGroups.reduce(
     (sum, group) => sum + group.skills.length + group.more.length,
     0
   )
+
+  const handleGroupChange = React.useCallback((groupId: string) => {
+    setActive(groupId)
+  }, [])
 
   return (
     <Section id="keahlian">
@@ -58,12 +66,14 @@ function Skills() {
       <Reveal>
         <SkillsMap
           activeGroup={active}
-          onActiveGroupChange={setActive}
+          onActiveGroupChange={handleGroupChange}
+          selectedSkillId={selectedSkillId}
+          onSelectedSkillChange={setSelectedSkillId}
         />
       </Reveal>
 
       <Reveal>
-        <Tabs value={active} onValueChange={setActive}>
+        <Tabs value={active} onValueChange={handleGroupChange}>
           <TabsList
             variant="line"
             aria-label="Kategori keahlian"
@@ -117,22 +127,39 @@ function Skills() {
                 </div>
 
                 <ul className="mt-5 grid gap-x-6 gap-y-4 sm:grid-cols-2">
-                  {group.skills.map((skill) => (
-                    <li key={skill.name} className="space-y-2">
-                      <div className="flex items-baseline justify-between gap-4">
-                        <span className="text-sm font-medium">
-                          {skill.name}
-                        </span>
-                        <span className="font-mono text-xs text-muted-foreground">
-                          {skill.level}%
-                        </span>
-                      </div>
-                      <Progress
-                        value={skill.level}
-                        aria-label={`${skill.name} ${skill.level}%`}
-                      />
-                    </li>
-                  ))}
+                  {group.skills.map((skill) => {
+                    const nodeId = skillNodeId(group.id, skill.name)
+                    const isSelected = selectedSkillId === nodeId
+                    return (
+                      <li
+                        key={skill.name}
+                        onClick={() =>
+                          setSelectedSkillId((prev) =>
+                            prev === nodeId ? null : nodeId
+                          )
+                        }
+                        className={cn(
+                          "cursor-pointer space-y-2 border p-2.5 transition-colors duration-200",
+                          isSelected
+                            ? "border-foreground bg-muted/60"
+                            : "border-transparent hover:border-border hover:bg-muted/25"
+                        )}
+                      >
+                        <div className="flex items-baseline justify-between gap-4">
+                          <span className="text-sm font-medium">
+                            {skill.name}
+                          </span>
+                          <span className="font-mono text-xs text-muted-foreground">
+                            {skill.level}%
+                          </span>
+                        </div>
+                        <Progress
+                          value={skill.level}
+                          aria-label={`${skill.name} ${skill.level}%`}
+                        />
+                      </li>
+                    )
+                  })}
                 </ul>
 
                 {group.more.length > 0 ? (
@@ -141,15 +168,29 @@ function Skills() {
                       Lainnya
                     </p>
                     <ul className="mt-2 flex flex-wrap gap-2">
-                      {group.more.map((item) => (
-                        <li
-                          key={item.name}
-                          className="border border-border bg-muted/40 px-2.5 py-1 text-xs text-muted-foreground transition-colors duration-200"
-                          title={`${item.name} — ${item.level}%`}
-                        >
-                          {item.name}
-                        </li>
-                      ))}
+                      {group.more.map((item) => {
+                        const nodeId = skillNodeId(group.id, item.name)
+                        const isSelected = selectedSkillId === nodeId
+                        return (
+                          <li
+                            key={item.name}
+                            onClick={() =>
+                              setSelectedSkillId((prev) =>
+                                prev === nodeId ? null : nodeId
+                              )
+                            }
+                            className={cn(
+                              "cursor-pointer border px-2.5 py-1 text-xs transition-colors duration-200",
+                              isSelected
+                                ? "border-foreground bg-foreground text-background"
+                                : "border-border bg-muted/40 text-muted-foreground hover:border-foreground/40 hover:text-foreground"
+                            )}
+                            title={`${item.name} — ${item.level}%`}
+                          >
+                            {item.name}
+                          </li>
+                        )
+                      })}
                     </ul>
                   </div>
                 ) : null}

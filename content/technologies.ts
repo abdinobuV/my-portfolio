@@ -82,6 +82,7 @@ export const techIconByLabel: Record<string, SimpleIcon> = {
   "Next.js": siNextdotjs,
   "Tailwind CSS": siTailwindcss,
   Tailwind: siTailwindcss,
+  HTML: siHtml5,
   HTML5: siHtml5,
   CSS: siCss,
   Vite: siVite,
